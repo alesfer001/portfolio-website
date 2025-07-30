@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, Mail, MapPin } from 'lucide-react';
 
 const Hero = () => {
   const scrollToSection = (href) => {
@@ -33,7 +33,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl sm:text-2xl lg:text-3xl text-gray-300 mb-8 max-w-4xl mx-auto"
           >
-            Senior Full-Stack Developer
+            Full-Stack Developer
           </motion.p>
 
           <motion.p
@@ -42,9 +42,19 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-lg sm:text-xl text-gray-400 mb-12 max-w-2xl mx-auto"
           >
-            Crafting modern web experiences with cutting-edge technologies. 
-            Available for freelance projects and full-time opportunities.
+            Full-Stack Developer with over 5 years of experience, expert in PHP, NodeJS, VueJS, and Python. 
+            Versatile and autonomous, ready to bring technical skills and innovative mindset to your freelance projects.
           </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            className="flex items-center justify-center gap-2 mb-8 text-gray-400"
+          >
+            <MapPin size={20} />
+            <span className="text-lg">Bordeaux, France</span>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -97,7 +107,7 @@ const Hero = () => {
             </motion.a>
             <motion.a
               whileHover={{ scale: 1.2, color: '#DB0007' }}
-              href="mailto:contact@ayoublesfer.com"
+              href="mailto:lesferayoub@gmail.com"
               className="text-gray-400 hover:text-arsenal-red transition-colors"
             >
               <Mail size={28} />

@@ -203,7 +203,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 **Ayoub Lesfer**
-- Email: contact@ayoublesfer.com
+- Email: lesferayoub@gmail.com
 - LinkedIn: [Your LinkedIn Profile](https://linkedin.com/in/yourprofile)
 - GitHub: [Your GitHub Profile](https://github.com/yourusername)
 

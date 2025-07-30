@@ -32,9 +32,15 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="text-xl font-bold text-white"
+            className="flex items-center space-x-3"
           >
-            <span className="text-arsenal-red">Ayoub</span> Lesfer
+            {/* Logo placeholder - can be replaced with actual logo */}
+            <div className="w-8 h-8 bg-arsenal-red rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">AL</span>
+            </div>
+            <div className="text-xl font-bold text-white">
+              <span className="text-arsenal-red">Ayoub</span> Lesfer
+            </div>
           </motion.div>
 
           {/* Desktop Navigation */}

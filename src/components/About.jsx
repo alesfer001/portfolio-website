@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Code, Database, Globe, Smartphone } from 'lucide-react';
+import { Code, Globe, GraduationCap, Languages } from 'lucide-react';
 
 const About = () => {
   const highlights = [
@@ -14,14 +14,14 @@ const About = () => {
       description: 'Building responsive, performant web applications'
     },
     {
-      icon: <Database size={24} />,
-      title: 'Database Design',
-      description: 'Efficient database architecture and optimization'
+      icon: <GraduationCap size={24} />,
+      title: 'Education',
+      description: 'Master in Computer Science, Université de Bordeaux (2018-2019)'
     },
     {
-      icon: <Smartphone size={24} />,
-      title: 'Mobile-First',
-      description: 'Creating seamless experiences across all devices'
+      icon: <Languages size={24} />,
+      title: 'Languages',
+      description: 'French (Bilingual), English (Bilingual), Arabic (Native)'
     }
   ];
 
@@ -39,8 +39,8 @@ const About = () => {
             About <span className="text-arsenal-red">Me</span>
           </h2>
           <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            Passionate full-stack developer with expertise in modern web technologies. 
-            I create scalable, user-friendly applications that drive business growth.
+            Experienced full-stack developer specializing in PHP, NodeJS, VueJS, and Python. 
+            Focused on delivering exceptional freelance solutions with innovative technical expertise.
           </p>
         </motion.div>
 
@@ -52,17 +52,17 @@ const About = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-2xl font-bold mb-6 text-arsenal-red">
-              Senior Full-Stack Developer
+              Freelance Full-Stack Developer
             </h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              With over 5 years of experience in web development, I specialize in creating 
-              robust, scalable applications using cutting-edge technologies. My expertise 
-              spans across frontend frameworks, backend systems, and cloud infrastructure.
+              With over 5 years of experience in web development, I bring versatile expertise 
+              in PHP, NodeJS, VueJS, and Python to create robust, scalable applications. 
+              My autonomous approach and innovative mindset make me an ideal partner for your freelance projects.
             </p>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              I&apos;m passionate about clean code, user experience, and continuous learning. 
-              Whether it&apos;s a complex enterprise application or a sleek startup MVP, 
-              I deliver solutions that exceed expectations.
+              Based in Bordeaux, France, I&apos;m passionate about delivering high-quality solutions 
+              that drive business success. From complex web applications to innovative digital solutions, 
+              I ensure every project meets the highest standards of excellence.
             </p>
             <div className="flex flex-wrap gap-4">
               <span className="bg-gray-700 text-arsenal-red px-3 py-1 rounded-full text-sm">
@@ -72,7 +72,7 @@ const About = () => {
                 Remote Work
               </span>
               <span className="bg-gray-700 text-blue-400 px-3 py-1 rounded-full text-sm">
-                Full-time Opportunities
+                Bordeaux, France
               </span>
             </div>
           </motion.div>
