@@ -23,7 +23,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-6"
           >
-            Hi, I'm{' '}
+            Hi, I&apos;m{' '}
             <span className="text-arsenal-red">Ayoub Lesfer</span>
           </motion.h1>
 

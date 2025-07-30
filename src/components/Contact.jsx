@@ -66,7 +66,7 @@ const Contact = () => {
             Get In <span className="text-arsenal-red">Touch</span>
           </h2>
           <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            Ready to bring your project to life? Let's discuss how we can work together 
+            Ready to bring your project to life? Let&apos;s discuss how we can work together 
             to create something amazing.
           </p>
         </motion.div>
@@ -80,7 +80,7 @@ const Contact = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-2xl font-bold mb-8 text-white">
-              Let's Start a Conversation
+              Let&apos;s Start a Conversation
             </h3>
             
             <div className="space-y-6 mb-8">

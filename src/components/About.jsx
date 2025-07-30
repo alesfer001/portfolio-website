@@ -60,8 +60,8 @@ const About = () => {
               spans across frontend frameworks, backend systems, and cloud infrastructure.
             </p>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              I'm passionate about clean code, user experience, and continuous learning. 
-              Whether it's a complex enterprise application or a sleek startup MVP, 
+              I&apos;m passionate about clean code, user experience, and continuous learning. 
+              Whether it&apos;s a complex enterprise application or a sleek startup MVP, 
               I deliver solutions that exceed expectations.
             </p>
             <div className="flex flex-wrap gap-4">
