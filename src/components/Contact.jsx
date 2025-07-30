@@ -23,7 +23,7 @@ const Contact = () => {
     // Handle form submission here
     console.log('Form submitted:', formData);
     setIsSubmitted(true);
-    
+
     // Reset form after 3 seconds
     setTimeout(() => {
       setIsSubmitted(false);
@@ -41,8 +41,8 @@ const Contact = () => {
     {
       icon: <Phone size={24} />,
       title: 'Phone',
-      content: '+1 (555) 123-4567',
-      link: 'tel:+15551234567'
+      content: '+33 7 62 05 59 15',
+      link: 'tel:+33762055915'
     },
     {
       icon: <MapPin size={24} />,
@@ -66,7 +66,7 @@ const Contact = () => {
             Get In <span className="text-arsenal-red">Touch</span>
           </h2>
           <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            Ready to bring your project to life? Let&apos;s discuss how we can work together 
+            Ready to bring your project to life? Let&apos;s discuss how we can work together
             to create something amazing.
           </p>
         </motion.div>
@@ -82,7 +82,7 @@ const Contact = () => {
             <h3 className="text-2xl font-bold mb-8 text-white">
               Let&apos;s Start a Conversation
             </h3>
-            
+
             <div className="space-y-6 mb-8">
               {contactInfo.map((info, index) => (
                 <motion.div
@@ -154,7 +154,7 @@ const Contact = () => {
                     placeholder="Your name"
                   />
                 </div>
-                
+
                 <div>
                   <label htmlFor="email" className="block text-white font-semibold mb-2">
                     Email *

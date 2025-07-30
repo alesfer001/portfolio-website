@@ -3,33 +3,58 @@ import { motion } from 'framer-motion';
 const Skills = () => {
   const skillCategories = [
     {
-      title: 'Frontend',
-      skills: [
-        { name: 'React', level: 95 },
-        { name: 'TypeScript', level: 90 },
-        { name: 'Next.js', level: 88 },
-        { name: 'Tailwind CSS', level: 92 },
-        { name: 'Vue.js', level: 85 },
-      ]
-    },
-    {
       title: 'Backend',
       skills: [
-        { name: 'Node.js', level: 93 },
-        { name: 'Python', level: 87 },
-        { name: 'Express.js', level: 90 },
-        { name: 'FastAPI', level: 85 },
-        { name: 'GraphQL', level: 82 },
+        { name: 'PHP', level: 95 },
+        { name: 'Laravel', level: 93 },
+        { name: 'Symfony', level: 85 },
+        { name: 'CodeIgniter', level: 88 },
+        { name: 'NodeJS', level: 87 },
+        { name: 'Python', level: 82 },
       ]
     },
     {
-      title: 'Database & Tools',
+      title: 'Frontend',
       skills: [
-        { name: 'PostgreSQL', level: 88 },
+        { name: 'JavaScript', level: 92 },
+        { name: 'VueJS', level: 90 },
+        { name: 'React', level: 85 },
+        { name: 'HTML/CSS', level: 95 },
+        { name: 'Tailwind CSS', level: 88 },
+      ]
+    },
+    {
+      title: 'Database',
+      skills: [
+        { name: 'MySQL', level: 95 },
+        { name: 'MariaDB', level: 90 },
         { name: 'MongoDB', level: 85 },
-        { name: 'Docker', level: 87 },
-        { name: 'AWS', level: 83 },
+      ]
+    },
+    {
+      title: 'Blockchain',
+      skills: [
+        { name: 'Ralph (Rust)', level: 88 },
+        { name: 'Smart Contracts', level: 85 },
+        { name: 'Alephium', level: 82 },
+      ]
+    },
+    {
+      title: 'DevOps & Tools',
+      skills: [
+        { name: 'Docker', level: 90 },
         { name: 'Git', level: 95 },
+        { name: 'APIs', level: 92 },
+        { name: 'OAuth2', level: 88 },
+        { name: 'Datadog', level: 85 },
+      ]
+    },
+    {
+      title: 'Languages',
+      skills: [
+        { name: 'French', level: 100 },
+        { name: 'English', level: 95 },
+        { name: 'Arabic', level: 100 },
       ]
     }
   ];
@@ -76,7 +101,7 @@ const Skills = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8"
         >
           {skillCategories.map((category, categoryIndex) => (
             <motion.div
@@ -126,8 +151,9 @@ const Skills = () => {
           </h3>
           <div className="flex flex-wrap justify-center gap-3">
             {[
-              'React Native', 'Redux', 'Jest', 'Cypress', 'Webpack',
-              'Vite', 'Figma', 'Linux', 'Nginx', 'Redis'
+              'Prestashop', 'Cordova', 'Android/iOS', 'PayPal API', 'Algolia',
+              'Cloudwatch', 'Airflow', 'Linux', 'Nginx', 'Redis',
+              'Webpack', 'Vite', 'Jest', 'OAuth2', 'RESTful APIs'
             ].map((tech, index) => (
               <motion.span
                 key={index}
