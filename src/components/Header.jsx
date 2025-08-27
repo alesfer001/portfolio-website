@@ -27,8 +27,9 @@ const Header = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
       className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800"
+      role="banner"
     >
-      <nav className="container-custom">
+      <nav className="container-custom" role="navigation" aria-label="Main navigation">
         <div className="flex items-center justify-between h-16">
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -62,6 +63,9 @@ const Header = () => {
           <button
             className="md:hidden text-white"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -70,10 +74,12 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2 }}
             className="md:hidden py-4 border-t border-gray-800"
+            role="menu"
           >
             {navItems.map((item) => (
               <button

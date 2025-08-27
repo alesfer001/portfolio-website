@@ -6,29 +6,37 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:analyze": "vite build --mode analyze",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext js,jsx --fix",
     "preview": "vite preview",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "tsc --noEmit",
+    "deploy": "npm run lint && npm run build",
+    "deploy:vercel": "vercel --prod",
+    "test:build": "npm run build && npm run preview"
   },
   "dependencies": {
+    "framer-motion": "^10.16.1",
+    "lucide-react": "^0.279.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.15.0",
-    "framer-motion": "^10.16.1",
-    "lucide-react": "^0.279.0"
+    "react-router-dom": "^6.15.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
+    "autoprefixer": "^10.4.15",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "postcss": "^8.4.29",
     "prettier": "^3.0.0",
     "tailwindcss": "^3.3.3",
-    "autoprefixer": "^10.4.15",
-    "postcss": "^8.4.29",
+    "terser": "^5.43.1",
     "vite": "^4.4.5"
   }
 }

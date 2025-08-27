@@ -39,9 +39,14 @@ const Footer = () => {
               <span className="text-arsenal-red">Ayoub</span> Lesfer
             </motion.div>
             <p className="text-gray-400 mb-4">
-              Senior Full-Stack Developer passionate about creating exceptional 
-              digital experiences with modern technologies.
+              Senior Full-Stack Developer specializing in freelance solutions.
+              Available for remote work worldwide.
             </p>
+            <div className="mb-4">
+              <span className="inline-block bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                🌍 Available for remote work worldwide
+              </span>
+            </div>
             <div className="flex space-x-4">
               {socialLinks.map((link, index) => (
                 <motion.a
@@ -89,13 +94,13 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Services</h3>
+            <h3 className="text-white font-semibold mb-4">Freelance Services</h3>
             <ul className="space-y-2 text-gray-400">
-              <li>Web Development</li>
-              <li>Full-Stack Solutions</li>
-              <li>API Development</li>
+              <li>Full-Stack Web Development</li>
+              <li>E-commerce Platforms</li>
+              <li>Legacy System Migration</li>
+              <li>Blockchain & DeFi Apps</li>
               <li>Technical Consulting</li>
-              <li>Code Reviews</li>
             </ul>
           </div>
         </div>

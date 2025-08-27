@@ -1,33 +1,110 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { trackContactFormStart, trackContactFormSubmit } from '../utils/analytics';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    subject: '',
+    company: '',
+    projectType: '',
+    budget: '',
+    timeline: '',
     message: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [hasStartedForm, setHasStartedForm] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
+
+  const validateField = (name, value) => {
+    const errors = { ...validationErrors };
+
+    switch (name) {
+      case 'name':
+        if (!value.trim()) {
+          errors.name = 'Name is required';
+        } else if (value.trim().length < 2) {
+          errors.name = 'Name must be at least 2 characters';
+        } else {
+          delete errors.name;
+        }
+        break;
+      case 'email': {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!value.trim()) {
+          errors.email = 'Email is required';
+        } else if (!emailRegex.test(value)) {
+          errors.email = 'Please enter a valid email address';
+        } else {
+          delete errors.email;
+        }
+        break;
+      }
+      case 'message':
+        if (!value.trim()) {
+          errors.message = 'Message is required';
+        } else if (value.trim().length < 10) {
+          errors.message = 'Message must be at least 10 characters';
+        } else {
+          delete errors.message;
+        }
+        break;
+      default:
+        break;
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+    
+    // Track form start on first input
+    if (!hasStartedForm) {
+      setHasStartedForm(true);
+      trackContactFormStart();
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+
+    // Validate field in real-time if user has started typing
+    if (value.trim() || validationErrors[name]) {
+      validateField(name, value);
+    }
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Validate all required fields
+    const isNameValid = validateField('name', formData.name);
+    const isEmailValid = validateField('email', formData.email);
+    const isMessageValid = validateField('message', formData.message);
+    
+    if (!isNameValid || !isEmailValid || !isMessageValid) {
+      return;
+    }
+
     // Handle form submission here
     console.log('Form submitted:', formData);
+    
+    // Track conversion
+    trackContactFormSubmit(formData);
+    
     setIsSubmitted(true);
 
     // Reset form after 3 seconds
     setTimeout(() => {
       setIsSubmitted(false);
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', company: '', projectType: '', budget: '', timeline: '', message: '' });
+      setHasStartedForm(false);
+      setValidationErrors({});
     }, 3000);
   };
 
@@ -47,7 +124,7 @@ const Contact = () => {
     {
       icon: <MapPin size={24} />,
       title: 'Location',
-      content: 'Available Worldwide',
+      content: 'Based in Bordeaux, France (CET/CEST)',
       link: null
     }
   ];
@@ -66,8 +143,8 @@ const Contact = () => {
             Get In <span className="text-arsenal-red">Touch</span>
           </h2>
           <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            Ready to bring your project to life? Let&apos;s discuss how we can work together
-            to create something amazing.
+            Available for freelance projects worldwide. Let&apos;s discuss how we can work together
+            to create something amazing for your business.
           </p>
         </motion.div>
 
@@ -79,9 +156,14 @@ const Contact = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-bold mb-8 text-white">
-              Let&apos;s Start a Conversation
-            </h3>
+            <div className="mb-8">
+              <h3 className="text-2xl font-bold mb-4 text-white">
+                Let&apos;s Start a Conversation
+              </h3>
+              <div className="inline-block bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold mb-4">
+                🌍 Available for remote work worldwide
+              </div>
+            </div>
 
             <div className="space-y-6 mb-8">
               {contactInfo.map((info, index) => (
@@ -117,15 +199,15 @@ const Contact = () => {
 
             <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
               <h4 className="text-lg font-semibold mb-4 text-arsenal-red">
-                What I Offer
+                Freelance Services
               </h4>
               <ul className="space-y-2 text-gray-300">
-                <li>• Full-stack web development</li>
-                <li>• Custom web applications</li>
-                <li>• API development & integration</li>
-                <li>• Performance optimization</li>
-                <li>• Technical consulting</li>
-                <li>• Code reviews & mentoring</li>
+                <li>• Full-stack web development (PHP, NodeJS, React, VueJS)</li>
+                <li>• E-commerce platform development & optimization</li>
+                <li>• Legacy system modernization & migration</li>
+                <li>• API development & third-party integrations</li>
+                <li>• Blockchain & DeFi applications</li>
+                <li>• Technical consulting & code reviews</li>
               </ul>
             </div>
           </motion.div>
@@ -151,7 +233,7 @@ const Contact = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-arsenal-red focus:outline-none transition-colors"
-                    placeholder="Your name"
+                    placeholder="Your full name"
                   />
                 </div>
 
@@ -173,24 +255,90 @@ const Contact = () => {
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-white font-semibold mb-2">
-                  Subject *
+                <label htmlFor="company" className="block text-white font-semibold mb-2">
+                  Company/Organization
                 </label>
                 <input
                   type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
+                  id="company"
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-arsenal-red focus:outline-none transition-colors"
+                  placeholder="Your company or organization (optional)"
+                />
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="projectType" className="block text-white font-semibold mb-2">
+                    Project Type *
+                  </label>
+                  <select
+                    id="projectType"
+                    name="projectType"
+                    value={formData.projectType}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-arsenal-red focus:outline-none transition-colors"
+                  >
+                    <option value="">Select project type</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="E-commerce Platform">E-commerce Platform</option>
+                    <option value="Mobile App">Mobile App</option>
+                    <option value="Blockchain/DeFi">Blockchain/DeFi</option>
+                    <option value="API Integration">API Integration</option>
+                    <option value="Legacy System Migration">Legacy System Migration</option>
+                    <option value="Technical Consulting">Technical Consulting</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="budget" className="block text-white font-semibold mb-2">
+                    Budget Range *
+                  </label>
+                  <select
+                    id="budget"
+                    name="budget"
+                    value={formData.budget}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-arsenal-red focus:outline-none transition-colors"
+                  >
+                    <option value="">Select budget range</option>
+                    <option value="€5k-15k">€5k-15k</option>
+                    <option value="€15k-30k">€15k-30k</option>
+                    <option value="€30k-50k">€30k-50k</option>
+                    <option value="€50k+">€50k+</option>
+                    <option value="Let's Discuss">Let&apos;s Discuss</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="timeline" className="block text-white font-semibold mb-2">
+                  Timeline *
+                </label>
+                <select
+                  id="timeline"
+                  name="timeline"
+                  value={formData.timeline}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-arsenal-red focus:outline-none transition-colors"
-                  placeholder="Project inquiry"
-                />
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-arsenal-red focus:outline-none transition-colors"
+                >
+                  <option value="">Select timeline</option>
+                  <option value="ASAP">ASAP</option>
+                  <option value="1-3 months">1-3 months</option>
+                  <option value="3-6 months">3-6 months</option>
+                  <option value="6+ months">6+ months</option>
+                  <option value="Flexible">Flexible</option>
+                </select>
               </div>
 
               <div>
                 <label htmlFor="message" className="block text-white font-semibold mb-2">
-                  Message *
+                  Project Details *
                 </label>
                 <textarea
                   id="message"
@@ -200,7 +348,7 @@ const Contact = () => {
                   required
                   rows={6}
                   className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-arsenal-red focus:outline-none transition-colors resize-none"
-                  placeholder="Tell me about your project..."
+                  placeholder="Tell me about your project requirements, goals, and any specific technologies or features you need..."
                 />
               </div>
 

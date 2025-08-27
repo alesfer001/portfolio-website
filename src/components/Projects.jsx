@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { MessageCircle, Eye, Calendar, Star } from 'lucide-react';
+import { trackProjectInterest } from '../utils/analytics';
 
 const Projects = () => {
   const projects = [
@@ -163,6 +164,7 @@ const Projects = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => {
+                      trackProjectInterest(project.title, 'contact_click');
                       const element = document.querySelector('#contact');
                       if (element) {
                         element.scrollIntoView({ behavior: 'smooth' });
@@ -178,6 +180,7 @@ const Projects = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => {
+                      trackProjectInterest(project.title, 'learn_more_click');
                       const element = document.querySelector('#about');
                       if (element) {
                         element.scrollIntoView({ behavior: 'smooth' });
