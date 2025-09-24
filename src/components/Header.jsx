@@ -35,10 +35,12 @@ const Header = () => {
             whileHover={{ scale: 1.05 }}
             className="flex items-center space-x-3"
           >
-            {/* Logo placeholder - can be replaced with actual logo */}
-            <div className="w-8 h-8 bg-arsenal-red rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">AL</span>
-            </div>
+            {/* Logo */}
+            <img
+              src="/logo.svg"
+              alt="Ayoub Lesfer Logo"
+              className="w-12 h-12"
+            />
             <div className="text-xl font-bold text-white">
               <span className="text-arsenal-red">Ayoub</span> Lesfer
             </div>
