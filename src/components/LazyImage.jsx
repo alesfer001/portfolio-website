@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 
 const LazyImage = ({ src, alt, className = '', placeholder, fallback }) => {
@@ -86,6 +87,14 @@ const LazyImage = ({ src, alt, className = '', placeholder, fallback }) => {
       {hasError && renderFallback()}
     </div>
   );
+};
+
+LazyImage.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  placeholder: PropTypes.node,
+  fallback: PropTypes.node
 };
 
 export default LazyImage;

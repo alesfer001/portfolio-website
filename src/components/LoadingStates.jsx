@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import PropTypes from 'prop-types';
 
 export const SkillSkeleton = () => (
   <div className="animate-pulse">
@@ -80,6 +81,10 @@ export const LoadingSpinner = ({ size = 'md' }) => {
   );
 };
 
+LoadingSpinner.propTypes = {
+  size: PropTypes.oneOf(['sm', 'md', 'lg', 'xl'])
+};
+
 export const PageLoadingSkeleton = () => (
   <div className="min-h-screen bg-gray-900 animate-pulse">
     {/* Header Skeleton */}
@@ -119,6 +124,11 @@ export const ButtonLoadingState = ({ children, isLoading, ...props }) => (
   </button>
 );
 
+ButtonLoadingState.propTypes = {
+  children: PropTypes.node.isRequired,
+  isLoading: PropTypes.bool.isRequired
+};
+
 export const FormSubmitButton = ({ isSubmitting, children, ...props }) => (
   <motion.button
     {...props}
@@ -133,3 +143,9 @@ export const FormSubmitButton = ({ isSubmitting, children, ...props }) => (
     </div>
   </motion.button>
 );
+
+FormSubmitButton.propTypes = {
+  isSubmitting: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string
+};

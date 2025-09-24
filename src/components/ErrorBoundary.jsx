@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 
@@ -12,7 +13,7 @@ class ErrorBoundary extends React.Component {
     };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 
@@ -113,17 +114,26 @@ class ErrorBoundary extends React.Component {
   }
 }
 
+ErrorBoundary.propTypes = {
+  children: PropTypes.node.isRequired,
+  fallbackMessage: PropTypes.string
+};
+
 export default ErrorBoundary;
 
 // Higher-order component for wrapping components with error boundaries
 export const withErrorBoundary = (WrappedComponent, fallbackMessage) => {
-  return function WithErrorBoundaryComponent(props) {
+  const WithErrorBoundaryComponent = function(props) {
     return (
       <ErrorBoundary fallbackMessage={fallbackMessage}>
         <WrappedComponent {...props} />
       </ErrorBoundary>
     );
   };
+
+  WithErrorBoundaryComponent.displayName = `withErrorBoundary(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
+  return WithErrorBoundaryComponent;
 };
 
 // Async error boundary for handling Promise rejections
@@ -154,4 +164,9 @@ export const AsyncErrorBoundary = ({ children, fallback }) => {
   }
 
   return children;
+};
+
+AsyncErrorBoundary.propTypes = {
+  children: PropTypes.node.isRequired,
+  fallback: PropTypes.func
 };
