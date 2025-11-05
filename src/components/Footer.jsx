@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, Heart } from 'lucide-react';
+import { FaXTwitter } from 'react-icons/fa6';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -7,13 +8,18 @@ const Footer = () => {
   const socialLinks = [
     {
       icon: <Github size={20} />,
-      href: 'https://github.com',
+      href: import.meta.env.VITE_GITHUB_URL || 'https://github.com',
       label: 'GitHub'
     },
     {
       icon: <Linkedin size={20} />,
-      href: 'https://linkedin.com',
+      href: import.meta.env.VITE_LINKEDIN_URL || 'https://linkedin.com',
       label: 'LinkedIn'
+    },
+    {
+      icon: <FaXTwitter size={20} />,
+      href: import.meta.env.VITE_TWITTER_URL || 'https://twitter.com',
+      label: 'X (Twitter)'
     },
     {
       icon: <Mail size={20} />,

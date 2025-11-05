@@ -1,9 +1,13 @@
 import { useState } from 'react';
+import { useForm } from '@formspree/react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { trackContactFormStart, trackContactFormSubmit } from '../utils/analytics';
 
 const Contact = () => {
+  const formspreeId = import.meta.env.VITE_FORMSPREE_FORM_ID || 'mnnoepae';
+  const [state, handleFormspreeSubmit] = useForm(formspreeId);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,7 +17,6 @@ const Contact = () => {
     timeline: '',
     message: ''
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [hasStartedForm, setHasStartedForm] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
 
@@ -79,33 +82,23 @@ const Contact = () => {
   };
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // Validate all required fields
     const isNameValid = validateField('name', formData.name);
     const isEmailValid = validateField('email', formData.email);
     const isMessageValid = validateField('message', formData.message);
-    
+
     if (!isNameValid || !isEmailValid || !isMessageValid) {
       return;
     }
 
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    
     // Track conversion
     trackContactFormSubmit(formData);
-    
-    setIsSubmitted(true);
 
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: '', email: '', company: '', projectType: '', budget: '', timeline: '', message: '' });
-      setHasStartedForm(false);
-      setValidationErrors({});
-    }, 3000);
+    // Submit to Formspree
+    await handleFormspreeSubmit(e);
   };
 
   const contactInfo = [
@@ -219,7 +212,49 @@ const Contact = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
+            {state.succeeded ? (
+              <div className="bg-green-900/30 border border-green-500 rounded-lg p-8 text-center">
+                <CheckCircle size={48} className="mx-auto mb-4 text-green-500" />
+                <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
+                <p className="text-gray-300 mb-4">
+                  Your message has been sent successfully. I&apos;ll get back to you as soon as possible.
+                </p>
+                <button
+                  onClick={() => {
+                    window.location.reload();
+                  }}
+                  className="px-6 py-2 bg-arsenal-red hover:bg-red-700 text-white rounded-lg transition-colors"
+                >
+                  Send Another Message
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {state.errors && state.errors.length > 0 && (
+                  <div className="bg-red-900/30 border border-red-500 rounded-lg p-4 flex items-start gap-3">
+                    <AlertCircle size={20} className="text-red-500 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="text-red-500 font-semibold mb-1">Submission Error</h4>
+                      <p className="text-gray-300 text-sm">
+                        There was a problem submitting your form. Please try again.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {Object.keys(validationErrors).length > 0 && (
+                  <div className="bg-yellow-900/30 border border-yellow-500 rounded-lg p-4 flex items-start gap-3">
+                    <AlertCircle size={20} className="text-yellow-500 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="text-yellow-500 font-semibold mb-1">Validation Errors</h4>
+                      <ul className="text-gray-300 text-sm space-y-1">
+                        {Object.entries(validationErrors).map(([field, error]) => (
+                          <li key={field}>• {error}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                )}
               <div className="grid sm:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-white font-semibold mb-2">
@@ -354,19 +389,19 @@ const Contact = () => {
 
               <motion.button
                 type="submit"
-                disabled={isSubmitted}
-                whileHover={{ scale: isSubmitted ? 1 : 1.02 }}
-                whileTap={{ scale: isSubmitted ? 1 : 0.98 }}
+                disabled={state.submitting}
+                whileHover={{ scale: state.submitting ? 1 : 1.02 }}
+                whileTap={{ scale: state.submitting ? 1 : 0.98 }}
                 className={`w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                  isSubmitted
-                    ? 'bg-green-600 text-white cursor-not-allowed'
+                  state.submitting
+                    ? 'bg-gray-600 text-white cursor-not-allowed'
                     : 'bg-arsenal-red hover:bg-red-700 text-white'
                 }`}
               >
-                {isSubmitted ? (
+                {state.submitting ? (
                   <>
-                    <CheckCircle size={20} />
-                    Message Sent!
+                    <Send size={20} className="animate-pulse" />
+                    Sending...
                   </>
                 ) : (
                   <>
@@ -376,6 +411,7 @@ const Contact = () => {
                 )}
               </motion.button>
             </form>
+            )}
           </motion.div>
         </div>
       </div>

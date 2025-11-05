@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowDown, Github, Linkedin, Mail, MapPin } from 'lucide-react';
+import { FaXTwitter } from 'react-icons/fa6';
 
 const Hero = () => {
   const scrollToSection = (href) => {
@@ -89,7 +90,7 @@ const Hero = () => {
           >
             <motion.a
               whileHover={{ scale: 1.2, color: '#DB0007' }}
-              href="https://github.com"
+              href={import.meta.env.VITE_GITHUB_URL || 'https://github.com'}
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-arsenal-red transition-colors"
@@ -98,12 +99,21 @@ const Hero = () => {
             </motion.a>
             <motion.a
               whileHover={{ scale: 1.2, color: '#DB0007' }}
-              href="https://linkedin.com"
+              href={import.meta.env.VITE_LINKEDIN_URL || 'https://linkedin.com'}
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-arsenal-red transition-colors"
             >
               <Linkedin size={28} />
+            </motion.a>
+            <motion.a
+              whileHover={{ scale: 1.2, color: '#DB0007' }}
+              href={import.meta.env.VITE_TWITTER_URL || 'https://twitter.com'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-arsenal-red transition-colors"
+            >
+              <FaXTwitter size={28} />
             </motion.a>
             <motion.a
               whileHover={{ scale: 1.2, color: '#DB0007' }}
