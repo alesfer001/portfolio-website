@@ -94,6 +94,7 @@ const Hero = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-arsenal-red transition-colors"
+              aria-label="Visit my GitHub profile"
             >
               <Github size={28} />
             </motion.a>
@@ -103,6 +104,7 @@ const Hero = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-arsenal-red transition-colors"
+              aria-label="Connect with me on LinkedIn"
             >
               <Linkedin size={28} />
             </motion.a>
@@ -112,6 +114,7 @@ const Hero = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-arsenal-red transition-colors"
+              aria-label="Follow me on X (Twitter)"
             >
               <FaXTwitter size={28} />
             </motion.a>
@@ -119,6 +122,7 @@ const Hero = () => {
               whileHover={{ scale: 1.2, color: '#DB0007' }}
               href="mailto:lesferayoub@gmail.com"
               className="text-gray-400 hover:text-arsenal-red transition-colors"
+              aria-label="Send me an email"
             >
               <Mail size={28} />
             </motion.a>
@@ -135,6 +139,7 @@ const Hero = () => {
               transition={{ duration: 2, repeat: Infinity }}
               onClick={() => scrollToSection('#about')}
               className="text-gray-400 hover:text-arsenal-red transition-colors"
+              aria-label="Scroll down to about section"
             >
               <ArrowDown size={32} />
             </motion.button>
