@@ -42,14 +42,14 @@ const Footer = () => {
               whileHover={{ scale: 1.05 }}
               className="text-2xl font-bold text-white mb-4"
             >
-              <span className="text-arsenal-red">Ayoub</span> Lesfer
+              <span className="text-red-500">Ayoub</span> Lesfer
             </motion.div>
             <p className="text-gray-400 mb-4">
               Senior Full-Stack Developer specializing in freelance solutions.
               Available for remote work worldwide.
             </p>
             <div className="mb-4">
-              <span className="inline-block bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+              <span className="inline-block bg-green-700 text-white px-3 py-1 rounded-full text-sm font-semibold">
                 🌍 Available for remote work worldwide
               </span>
             </div>
