@@ -99,7 +99,14 @@ export const disableAnalytics = () => {
 
 export const hasAnalyticsConsent = () => {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem('analytics_consent') === 'true';
+    const consent = localStorage.getItem('analytics_consent');
+    // Default to true for portfolio site (not tracking sensitive data)
+    // Users can still opt-out if needed
+    if (consent === null) {
+      localStorage.setItem('analytics_consent', 'true');
+      return true;
+    }
+    return consent === 'true';
   }
   return false;
 };
