@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Mail, MapPin } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, Mail, MapPin, Download } from 'lucide-react';
 import { FaXTwitter } from 'react-icons/fa6';
+import { trackResumeDownload } from '../utils/analytics';
 
 const Hero = () => {
   const scrollToSection = (href) => {
@@ -8,6 +9,11 @@ const Hero = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  };
+
+  const handleResumeDownload = () => {
+    trackResumeDownload();
+    window.open(import.meta.env.VITE_RESUME_URL || '/resume.pdf', '_blank');
   };
 
   return (
@@ -71,7 +77,17 @@ const Hero = () => {
             >
               Get In Touch
             </motion.button>
-            
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleResumeDownload}
+              className="border border-gray-600 hover:border-arsenal-red text-white px-8 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2"
+            >
+              <Download size={20} />
+              Download Resume
+            </motion.button>
+
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
