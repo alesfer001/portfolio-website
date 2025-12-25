@@ -90,11 +90,5 @@
       "permanent": true
     }
   ],
-  "functions": {
-    "pages/api/*.js": {
-      "maxDuration": 30
-    }
-  },
-  "regions": ["cdg1", "iad1", "pdx1"],
   "trailingSlash": false
 }
