@@ -7,7 +7,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        'arsenal-red': '#DB0007',
+        // Primary brand color - change the CSS variables in src/index.css to update the entire theme
+        'primary': 'var(--color-primary)',
+        'primary-hover': 'var(--color-primary-hover)',
       },
       fontFamily: {
         'sans': ['Inter', 'system-ui', 'sans-serif'],

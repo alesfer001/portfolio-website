@@ -89,7 +89,7 @@ class ErrorBoundary extends React.Component {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={this.handleReload}
-                className="flex items-center gap-2 bg-arsenal-red hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+                className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-semibold transition-colors"
               >
                 <RefreshCw size={18} />
                 Reload Page
@@ -99,7 +99,7 @@ class ErrorBoundary extends React.Component {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={this.handleGoHome}
-                className="flex items-center gap-2 border border-gray-600 hover:border-arsenal-red text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+                className="flex items-center gap-2 border border-gray-600 hover:border-primary text-white px-4 py-2 rounded-lg font-semibold transition-colors"
               >
                 <Home size={18} />
                 Go Home

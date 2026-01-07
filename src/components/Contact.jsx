@@ -133,7 +133,7 @@ const Contact = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-            Get In <span className="text-arsenal-red">Touch</span>
+            Get In <span className="text-primary">Touch</span>
           </h2>
           <p className="text-lg text-gray-300 max-w-3xl mx-auto">
             Available for freelance projects worldwide. Let&apos;s discuss how we can work together
@@ -168,7 +168,7 @@ const Contact = () => {
                   viewport={{ once: true }}
                   className="flex items-center space-x-4"
                 >
-                  <div className="bg-arsenal-red p-3 rounded-lg">
+                  <div className="bg-primary p-3 rounded-lg">
                     {info.icon}
                   </div>
                   <div>
@@ -178,7 +178,7 @@ const Contact = () => {
                     {info.link ? (
                       <a
                         href={info.link}
-                        className="text-gray-300 hover:text-arsenal-red transition-colors"
+                        className="text-gray-300 hover:text-primary transition-colors"
                       >
                         {info.content}
                       </a>
@@ -191,7 +191,7 @@ const Contact = () => {
             </div>
 
             <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-              <h4 className="text-lg font-semibold mb-4 text-arsenal-red">
+              <h4 className="text-lg font-semibold mb-4 text-primary">
                 Freelance Services
               </h4>
               <ul className="space-y-2 text-gray-300">
@@ -223,7 +223,7 @@ const Contact = () => {
                   onClick={() => {
                     window.location.reload();
                   }}
-                  className="px-6 py-2 bg-arsenal-red hover:bg-red-700 text-white rounded-lg transition-colors"
+                  className="px-6 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg transition-colors"
                 >
                   Send Another Message
                 </button>
@@ -267,7 +267,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-arsenal-red focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:outline-none transition-colors"
                     placeholder="Your full name"
                   />
                 </div>
@@ -283,7 +283,7 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-arsenal-red focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:outline-none transition-colors"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -299,7 +299,7 @@ const Contact = () => {
                   name="company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-arsenal-red focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:outline-none transition-colors"
                   placeholder="Your company or organization (optional)"
                 />
               </div>
@@ -315,7 +315,7 @@ const Contact = () => {
                     value={formData.projectType}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-arsenal-red focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-primary focus:outline-none transition-colors"
                   >
                     <option value="">Select project type</option>
                     <option value="Web Development">Web Development</option>
@@ -338,7 +338,7 @@ const Contact = () => {
                     value={formData.budget}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-arsenal-red focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-primary focus:outline-none transition-colors"
                   >
                     <option value="">Select budget range</option>
                     <option value="€5k-15k">€5k-15k</option>
@@ -360,7 +360,7 @@ const Contact = () => {
                   value={formData.timeline}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-arsenal-red focus:outline-none transition-colors"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-primary focus:outline-none transition-colors"
                 >
                   <option value="">Select timeline</option>
                   <option value="ASAP">ASAP</option>
@@ -382,7 +382,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-arsenal-red focus:outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:outline-none transition-colors resize-none"
                   placeholder="Tell me about your project requirements, goals, and any specific technologies or features you need..."
                 />
               </div>
@@ -395,7 +395,7 @@ const Contact = () => {
                 className={`w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
                   state.submitting
                     ? 'bg-gray-600 text-white cursor-not-allowed'
-                    : 'bg-arsenal-red hover:bg-red-700 text-white'
+                    : 'bg-primary hover:bg-primary-hover text-white'
                 }`}
               >
                 {state.submitting ? (

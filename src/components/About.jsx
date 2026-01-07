@@ -36,7 +36,7 @@ const About = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-            About <span className="text-arsenal-red">Me</span>
+            About <span className="text-primary">Me</span>
           </h2>
           <p className="text-lg text-gray-300 max-w-3xl mx-auto">
             Experienced full-stack developer specializing in PHP, NodeJS, VueJS, and Python. 
@@ -51,7 +51,7 @@ const About = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-bold mb-6 text-arsenal-red">
+            <h3 className="text-2xl font-bold mb-6 text-primary">
               Freelance Full-Stack Developer
             </h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
@@ -65,7 +65,7 @@ const About = () => {
               I ensure every project meets the highest standards of excellence.
             </p>
             <div className="flex flex-wrap gap-4">
-              <span className="bg-gray-700 text-arsenal-red px-3 py-1 rounded-full text-sm">
+              <span className="bg-gray-700 text-primary px-3 py-1 rounded-full text-sm">
                 Available for Freelance
               </span>
               <span className="bg-gray-700 text-green-400 px-3 py-1 rounded-full text-sm">
@@ -92,9 +92,9 @@ const About = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05 }}
-                className="bg-gray-700 p-6 rounded-lg border border-gray-600 hover:border-arsenal-red transition-all duration-300"
+                className="bg-gray-700 p-6 rounded-lg border border-gray-600 hover:border-primary transition-all duration-300"
               >
-                <div className="text-arsenal-red mb-4">
+                <div className="text-primary mb-4">
                   {highlight.icon}
                 </div>
                 <h4 className="text-lg font-semibold mb-2 text-white">

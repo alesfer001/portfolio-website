@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, Heart } from 'lucide-react';
 import { FaXTwitter } from 'react-icons/fa6';
+import { PRIMARY_COLOR } from '../utils/constants';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -42,7 +43,7 @@ const Footer = () => {
               whileHover={{ scale: 1.05 }}
               className="text-2xl font-bold text-white mb-4"
             >
-              <span className="text-red-500">Ayoub</span> Lesfer
+              <span className="text-primary">Ayoub</span> Lesfer
             </motion.div>
             <p className="text-gray-400 mb-4">
               Senior Full-Stack Developer specializing in freelance solutions.
@@ -60,8 +61,8 @@ const Footer = () => {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.2, color: '#DB0007' }}
-                  className="text-gray-400 hover:text-arsenal-red transition-colors"
+                  whileHover={{ scale: 1.2, color: PRIMARY_COLOR }}
+                  className="text-gray-400 hover:text-primary transition-colors"
                   aria-label={link.label}
                 >
                   {link.icon}
@@ -89,7 +90,7 @@ const Footer = () => {
                         element.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
-                    className="text-gray-400 hover:text-arsenal-red transition-colors"
+                    className="text-gray-400 hover:text-primary transition-colors"
                   >
                     {link.name}
                   </button>
@@ -119,7 +120,7 @@ const Footer = () => {
               <motion.div
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 1, repeat: Infinity }}
-                className="mx-1 text-arsenal-red"
+                className="mx-1 text-primary"
               >
                 <Heart size={16} fill="currentColor" />
               </motion.div>
@@ -130,7 +131,7 @@ const Footer = () => {
               onClick={scrollToTop}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-arsenal-red hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
+              className="bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg transition-colors"
             >
               Back to Top
             </motion.button>

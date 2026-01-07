@@ -53,7 +53,7 @@ const Projects = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-            Featured <span className="text-arsenal-red">Projects</span>
+            Featured <span className="text-primary">Projects</span>
           </h2>
           <p className="text-lg text-gray-300 max-w-3xl mx-auto">
             Real projects showcasing 5+ years of full-stack development expertise,
@@ -69,7 +69,7 @@ const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="grid lg:grid-cols-2 gap-8 bg-gray-900 rounded-lg overflow-hidden border border-gray-700 hover:border-arsenal-red transition-all duration-300"
+              className="grid lg:grid-cols-2 gap-8 bg-gray-900 rounded-lg overflow-hidden border border-gray-700 hover:border-primary transition-all duration-300"
             >
               {/* Project Image */}
               <div className="relative group">
@@ -94,7 +94,7 @@ const Projects = () => {
                         }}
                       />
                       {/* Hover overlay - only render when image exists */}
-                      <div className="absolute inset-0 bg-arsenal-red opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none" />
+                      <div className="absolute inset-0 bg-primary opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none" />
                     </>
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-gray-600 to-gray-800 flex flex-col items-center justify-center">
@@ -129,7 +129,7 @@ const Projects = () => {
                         {project.title}
                       </h3>
                       {project.highlight && (
-                        <p className="text-arsenal-red text-sm font-semibold mb-2">
+                        <p className="text-primary text-sm font-semibold mb-2">
                           🚀 {project.highlight}
                         </p>
                       )}
@@ -148,7 +148,7 @@ const Projects = () => {
                     {project.technologies.map((tech, techIndex) => (
                       <span
                         key={techIndex}
-                        className="bg-gray-700 text-arsenal-red px-3 py-1 rounded-full text-sm border border-gray-600"
+                        className="bg-gray-700 text-primary px-3 py-1 rounded-full text-sm border border-gray-600"
                       >
                         {tech}
                       </span>
@@ -167,7 +167,7 @@ const Projects = () => {
                         element.scrollIntoView({ behavior: 'smooth' });
                       }
                     }}
-                    className="flex items-center gap-2 bg-arsenal-red hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+                    className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-4 py-2 rounded-lg font-semibold transition-colors"
                   >
                     <MessageCircle size={18} />
                     Discuss This Project
@@ -197,7 +197,7 @@ const Projects = () => {
                 element.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            className="inline-flex items-center gap-2 border border-arsenal-red text-arsenal-red hover:bg-arsenal-red hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
+            className="inline-flex items-center gap-2 border border-primary text-primary hover:bg-primary hover:text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
           >
             <MessageCircle size={20} />
             Discuss Your Freelance Project

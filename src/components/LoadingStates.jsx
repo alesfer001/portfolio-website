@@ -76,7 +76,7 @@ export const LoadingSpinner = ({ size = 'md' }) => {
     <motion.div
       animate={{ rotate: 360 }}
       transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-      className={`${sizeClasses[size]} border-2 border-arsenal-red border-t-transparent rounded-full`}
+      className={`${sizeClasses[size]} border-2 border-primary border-t-transparent rounded-full`}
     />
   );
 };

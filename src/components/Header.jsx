@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { PRIMARY_COLOR } from '../utils/constants';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -42,7 +43,7 @@ const Header = () => {
               className="w-12 h-12"
             />
             <div className="text-xl font-bold text-white">
-              <span className="text-arsenal-red">Ayoub</span> Lesfer
+              <span className="text-primary">Ayoub</span> Lesfer
             </div>
           </motion.div>
 
@@ -51,10 +52,10 @@ const Header = () => {
             {navItems.map((item) => (
               <motion.button
                 key={item.name}
-                whileHover={{ color: '#DB0007' }}
+                whileHover={{ color: PRIMARY_COLOR }}
                 transition={{ duration: 0.2 }}
                 onClick={() => scrollToSection(item.href)}
-                className="text-gray-300 hover:text-arsenal-red transition-colors"
+                className="text-gray-300 hover:text-primary transition-colors"
               >
                 {item.name}
               </motion.button>
@@ -87,7 +88,7 @@ const Header = () => {
               <button
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
-                className="block w-full text-left py-2 text-gray-300 hover:text-arsenal-red transition-colors"
+                className="block w-full text-left py-2 text-gray-300 hover:text-primary transition-colors"
               >
                 {item.name}
               </button>

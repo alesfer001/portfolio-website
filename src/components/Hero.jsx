@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowDown, Github, Linkedin, Mail, MapPin, Download } from 'lucide-react';
 import { FaXTwitter } from 'react-icons/fa6';
 import { trackResumeDownload } from '../utils/analytics';
+import { PRIMARY_COLOR } from '../utils/constants';
 
 const Hero = () => {
   const scrollToSection = (href) => {
@@ -31,7 +32,7 @@ const Hero = () => {
             className="text-4xl sm:text-6xl lg:text-7xl font-bold mb-6"
           >
             Hi, I&apos;m{' '}
-            <span className="text-arsenal-red">Ayoub Lesfer</span>
+            <span className="text-primary">Ayoub Lesfer</span>
           </motion.h1>
 
           <motion.p
@@ -73,7 +74,7 @@ const Hero = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => scrollToSection('#contact')}
-              className="bg-arsenal-red hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+              className="bg-primary hover:bg-primary-hover text-white px-8 py-3 rounded-lg font-semibold transition-colors"
             >
               Get In Touch
             </motion.button>
@@ -82,7 +83,7 @@ const Hero = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleResumeDownload}
-              className="border border-gray-600 hover:border-arsenal-red text-white px-8 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2"
+              className="border border-gray-600 hover:border-primary text-white px-8 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2"
             >
               <Download size={20} />
               Download Resume
@@ -92,7 +93,7 @@ const Hero = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => scrollToSection('#projects')}
-              className="border border-gray-600 hover:border-arsenal-red text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+              className="border border-gray-600 hover:border-primary text-white px-8 py-3 rounded-lg font-semibold transition-colors"
             >
               View My Work
             </motion.button>
@@ -105,39 +106,39 @@ const Hero = () => {
             className="flex justify-center space-x-6 mb-12"
           >
             <motion.a
-              whileHover={{ scale: 1.2, color: '#DB0007' }}
+              whileHover={{ scale: 1.2, color: PRIMARY_COLOR }}
               href={import.meta.env.VITE_GITHUB_URL || 'https://github.com'}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-arsenal-red transition-colors"
+              className="text-gray-400 hover:text-primary transition-colors"
               aria-label="Visit my GitHub profile"
             >
               <Github size={28} />
             </motion.a>
             <motion.a
-              whileHover={{ scale: 1.2, color: '#DB0007' }}
+              whileHover={{ scale: 1.2, color: PRIMARY_COLOR }}
               href={import.meta.env.VITE_LINKEDIN_URL || 'https://linkedin.com'}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-arsenal-red transition-colors"
+              className="text-gray-400 hover:text-primary transition-colors"
               aria-label="Connect with me on LinkedIn"
             >
               <Linkedin size={28} />
             </motion.a>
             <motion.a
-              whileHover={{ scale: 1.2, color: '#DB0007' }}
+              whileHover={{ scale: 1.2, color: PRIMARY_COLOR }}
               href={import.meta.env.VITE_TWITTER_URL || 'https://twitter.com'}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-arsenal-red transition-colors"
+              className="text-gray-400 hover:text-primary transition-colors"
               aria-label="Follow me on X (Twitter)"
             >
               <FaXTwitter size={28} />
             </motion.a>
             <motion.a
-              whileHover={{ scale: 1.2, color: '#DB0007' }}
+              whileHover={{ scale: 1.2, color: PRIMARY_COLOR }}
               href="mailto:lesferayoub@gmail.com"
-              className="text-gray-400 hover:text-arsenal-red transition-colors"
+              className="text-gray-400 hover:text-primary transition-colors"
               aria-label="Send me an email"
             >
               <Mail size={28} />
@@ -154,7 +155,7 @@ const Hero = () => {
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2, repeat: Infinity }}
               onClick={() => scrollToSection('#about')}
-              className="text-gray-400 hover:text-arsenal-red transition-colors"
+              className="text-gray-400 hover:text-primary transition-colors"
               aria-label="Scroll down to about section"
             >
               <ArrowDown size={32} />

@@ -90,7 +90,7 @@ const Skills = () => {
           className="text-center mb-16"
         >
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-            My <span className="text-arsenal-red">Skills</span>
+            My <span className="text-primary">Skills</span>
           </h2>
           <p className="text-lg text-gray-300 max-w-3xl mx-auto">
             A comprehensive overview of the technologies and tools I work with to bring ideas to life.
@@ -108,9 +108,9 @@ const Skills = () => {
             <motion.div
               key={categoryIndex}
               variants={itemVariants}
-              className="bg-gray-800 rounded-lg p-6 border border-gray-700 hover:border-arsenal-red transition-all duration-300"
+              className="bg-gray-800 rounded-lg p-6 border border-gray-700 hover:border-primary transition-all duration-300"
             >
-              <h3 className="text-xl font-bold mb-6 text-arsenal-red">
+              <h3 className="text-xl font-bold mb-6 text-primary">
                 {category.title}
               </h3>
               <div className="space-y-4">
@@ -130,7 +130,7 @@ const Skills = () => {
                         whileInView={{ width: `${skill.level}%` }}
                         transition={{ duration: 1, delay: skillIndex * 0.1 }}
                         viewport={{ once: true }}
-                        className="bg-gradient-to-r from-arsenal-red to-red-500 h-2 rounded-full"
+                        className="bg-gradient-to-r from-primary to-primary-hover h-2 rounded-full"
                       />
                     </div>
                   </div>
@@ -163,7 +163,7 @@ const Skills = () => {
                 transition={{ duration: 0.3, delay: index * 0.05 }}
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05 }}
-                className="bg-gray-700 text-gray-300 px-4 py-2 rounded-full text-sm border border-gray-600 hover:border-arsenal-red hover:text-arsenal-red transition-all duration-300"
+                className="bg-gray-700 text-gray-300 px-4 py-2 rounded-full text-sm border border-gray-600 hover:border-primary hover:text-primary transition-all duration-300"
               >
                 {tech}
               </motion.span>

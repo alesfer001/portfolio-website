@@ -31,7 +31,7 @@ const NotFound = () => {
           }}
           className="mb-8"
         >
-          <span className="text-8xl font-bold text-arsenal-red">4</span>
+          <span className="text-8xl font-bold text-primary">4</span>
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ 
@@ -43,7 +43,7 @@ const NotFound = () => {
           >
             <Search size={80} className="text-gray-600" />
           </motion.div>
-          <span className="text-8xl font-bold text-arsenal-red">4</span>
+          <span className="text-8xl font-bold text-primary">4</span>
         </motion.div>
 
         <motion.h1
@@ -75,7 +75,7 @@ const NotFound = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleGoHome}
-            className="flex items-center gap-2 bg-arsenal-red hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors w-full sm:w-auto"
+            className="flex items-center gap-2 bg-primary hover:bg-primary-hover text-white px-6 py-3 rounded-lg font-semibold transition-colors w-full sm:w-auto"
           >
             <Home size={18} />
             Go Home
@@ -85,7 +85,7 @@ const NotFound = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleGoBack}
-            className="flex items-center gap-2 border border-gray-600 hover:border-arsenal-red text-white px-6 py-3 rounded-lg font-semibold transition-colors w-full sm:w-auto"
+            className="flex items-center gap-2 border border-gray-600 hover:border-primary text-white px-6 py-3 rounded-lg font-semibold transition-colors w-full sm:w-auto"
           >
             <ArrowLeft size={18} />
             Go Back
@@ -113,7 +113,7 @@ const NotFound = () => {
                 window.location.href = '/#contact';
               }
             }}
-            className="inline-flex items-center gap-2 text-arsenal-red hover:text-red-400 transition-colors"
+            className="inline-flex items-center gap-2 text-primary hover:opacity-80 transition-colors"
           >
             <Mail size={16} />
             Contact Me
@@ -131,7 +131,7 @@ const NotFound = () => {
             repeat: Infinity,
             ease: "easeInOut"
           }}
-          className="absolute inset-0 -z-10 bg-gradient-to-r from-arsenal-red to-red-800 blur-3xl"
+          className="absolute inset-0 -z-10 bg-gradient-to-r from-primary to-primary-hover blur-3xl"
         />
       </motion.div>
     </div>
