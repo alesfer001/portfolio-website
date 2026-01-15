@@ -5,6 +5,7 @@ import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import FloatingActions from './components/FloatingActions';
 import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <ErrorBoundary fallbackMessage="There was an issue loading the footer.">
           <Footer />
         </ErrorBoundary>
+        <FloatingActions />
       </div>
     </ErrorBoundary>
   );
