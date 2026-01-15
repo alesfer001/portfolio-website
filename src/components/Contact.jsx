@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { useForm } from '@formspree/react';
 import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle, ArrowUpRight } from 'lucide-react';
 import { trackContactFormStart, trackContactFormSubmit } from '../utils/analytics';
+import { SectionHeading } from './common';
+import { useCursor } from './cursor';
 
 const Contact = () => {
   const formspreeId = import.meta.env.VITE_FORMSPREE_FORM_ID || 'mnnoepae';
   const [state, handleFormspreeSubmit] = useForm(formspreeId);
+  const { setCursorVariant } = useCursor();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -15,7 +18,7 @@ const Contact = () => {
     projectType: '',
     budget: '',
     timeline: '',
-    message: ''
+    message: '',
   });
   const [hasStartedForm, setHasStartedForm] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
@@ -63,8 +66,7 @@ const Contact = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
-    // Track form start on first input
+
     if (!hasStartedForm) {
       setHasStartedForm(true);
       trackContactFormStart();
@@ -72,20 +74,17 @@ const Contact = () => {
 
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
 
-    // Validate field in real-time if user has started typing
     if (value.trim() || validationErrors[name]) {
       validateField(name, value);
     }
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate all required fields
     const isNameValid = validateField('name', formData.name);
     const isEmailValid = validateField('email', formData.email);
     const isMessageValid = validateField('message', formData.message);
@@ -94,323 +93,324 @@ const Contact = () => {
       return;
     }
 
-    // Track conversion
     trackContactFormSubmit(formData);
-
-    // Submit to Formspree
     await handleFormspreeSubmit(e);
   };
 
   const contactInfo = [
     {
-      icon: <Mail size={24} />,
+      icon: Mail,
       title: 'Email',
       content: 'lesferayoub@gmail.com',
-      link: 'mailto:lesferayoub@gmail.com'
+      link: 'mailto:lesferayoub@gmail.com',
     },
     {
-      icon: <Phone size={24} />,
+      icon: Phone,
       title: 'Phone',
       content: '+33 7 62 05 59 15',
-      link: 'tel:+33762055915'
+      link: 'tel:+33762055915',
     },
     {
-      icon: <MapPin size={24} />,
+      icon: MapPin,
       title: 'Location',
-      content: 'Based in Bordeaux, France (CET/CEST)',
-      link: null
-    }
+      content: 'Bordeaux, France (CET)',
+      link: null,
+    },
   ];
 
   return (
-    <section id="contact" className="section-padding bg-gray-900">
+    <section id="contact" className="section-padding">
       <div className="container-custom">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
+        <SectionHeading
+          subtitle="Let's discuss how we can work together to create something amazing"
+          gradientWord="Touch"
         >
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-            Get In <span className="text-primary">Touch</span>
-          </h2>
-          <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            Available for freelance projects worldwide. Let&apos;s discuss how we can work together
-            to create something amazing for your business.
-          </p>
-        </motion.div>
+          Get In Touch
+        </SectionHeading>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-5 gap-12">
           {/* Contact Information */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-2"
           >
-            <div className="mb-8">
-              <h3 className="text-2xl font-bold mb-4 text-white">
-                Let&apos;s Start a Conversation
-              </h3>
-              <div className="inline-block bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold mb-4">
-                🌍 Available for remote work worldwide
-              </div>
+            {/* Availability Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm mb-8">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="text-gray-300">Available worldwide</span>
             </div>
 
-            <div className="space-y-6 mb-8">
+            {/* Contact Items */}
+            <div className="space-y-4 mb-8">
               {contactInfo.map((info, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="flex items-center space-x-4"
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  onMouseEnter={() => setCursorVariant('hover')}
+                  onMouseLeave={() => setCursorVariant('default')}
+                  className="group"
                 >
-                  <div className="bg-primary p-3 rounded-lg">
-                    {info.icon}
-                  </div>
-                  <div>
-                    <h4 className="text-white font-semibold">
-                      {info.title}
-                    </h4>
-                    {info.link ? (
-                      <a
-                        href={info.link}
-                        className="text-gray-300 hover:text-primary transition-colors"
-                      >
-                        {info.content}
-                      </a>
-                    ) : (
-                      <p className="text-gray-300">{info.content}</p>
-                    )}
+                  <div className="card p-4 flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-1/20 to-accent-2/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <info.icon className="w-5 h-5 text-accent-1" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-gray-500 mb-0.5">{info.title}</p>
+                      {info.link ? (
+                        <a
+                          href={info.link}
+                          className="text-white hover:text-accent-1 transition-colors flex items-center gap-1"
+                        >
+                          {info.content}
+                          <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </a>
+                      ) : (
+                        <p className="text-white">{info.content}</p>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
-              <h4 className="text-lg font-semibold mb-4 text-primary">
+            {/* Services */}
+            <div className="card p-6">
+              <h4 className="font-display font-bold text-lg mb-4 gradient-text">
                 Freelance Services
               </h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>• Full-stack web development (PHP, NodeJS, React, VueJS)</li>
-                <li>• E-commerce platform development & optimization</li>
-                <li>• Legacy system modernization & migration</li>
-                <li>• API development & third-party integrations</li>
-                <li>• Blockchain & DeFi applications</li>
-                <li>• Technical consulting & code reviews</li>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent-1" />
+                  Full-stack web development
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent-2" />
+                  E-commerce platforms
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent-3" />
+                  Legacy system modernization
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent-1" />
+                  API development & integrations
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent-2" />
+                  Blockchain & DeFi applications
+                </li>
               </ul>
             </div>
           </motion.div>
 
           {/* Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-3"
           >
             {state.succeeded ? (
-              <div className="bg-green-900/30 border border-green-500 rounded-lg p-8 text-center">
-                <CheckCircle size={48} className="mx-auto mb-4 text-green-500" />
-                <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
-                <p className="text-gray-300 mb-4">
-                  Your message has been sent successfully. I&apos;ll get back to you as soon as possible.
+              <div className="card p-8 text-center border-green-500/30">
+                <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle size={32} className="text-green-500" />
+                </div>
+                <h3 className="font-display text-2xl font-bold mb-2">Thank You!</h3>
+                <p className="text-gray-400 mb-6">
+                  Your message has been sent successfully. I&apos;ll get back to you soon.
                 </p>
                 <button
-                  onClick={() => {
-                    window.location.reload();
-                  }}
-                  className="px-6 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg transition-colors"
+                  onClick={() => window.location.reload()}
+                  className="btn-primary"
                 >
                   Send Another Message
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="card p-6 lg:p-8 space-y-6">
                 {state.errors && state.errors.length > 0 && (
-                  <div className="bg-red-900/30 border border-red-500 rounded-lg p-4 flex items-start gap-3">
+                  <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 flex items-start gap-3">
                     <AlertCircle size={20} className="text-red-500 flex-shrink-0 mt-0.5" />
                     <div>
-                      <h4 className="text-red-500 font-semibold mb-1">Submission Error</h4>
-                      <p className="text-gray-300 text-sm">
-                        There was a problem submitting your form. Please try again.
-                      </p>
+                      <p className="text-red-400 font-medium">Submission Error</p>
+                      <p className="text-gray-400 text-sm">Please try again.</p>
                     </div>
                   </div>
                 )}
 
                 {Object.keys(validationErrors).length > 0 && (
-                  <div className="bg-yellow-900/30 border border-yellow-500 rounded-lg p-4 flex items-start gap-3">
+                  <div className="p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/30 flex items-start gap-3">
                     <AlertCircle size={20} className="text-yellow-500 flex-shrink-0 mt-0.5" />
                     <div>
-                      <h4 className="text-yellow-500 font-semibold mb-1">Validation Errors</h4>
-                      <ul className="text-gray-300 text-sm space-y-1">
-                        {Object.entries(validationErrors).map(([field, error]) => (
-                          <li key={field}>• {error}</li>
+                      <p className="text-yellow-400 font-medium">Please fix the errors</p>
+                      <ul className="text-gray-400 text-sm">
+                        {Object.values(validationErrors).map((error, i) => (
+                          <li key={i}>{error}</li>
                         ))}
                       </ul>
                     </div>
                   </div>
                 )}
-              <div className="grid sm:grid-cols-2 gap-6">
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                      Name *
+                    </label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                      placeholder="Your full name"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                      placeholder="your@email.com"
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label htmlFor="name" className="block text-white font-semibold mb-2">
-                    Name *
+                  <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-2">
+                    Company
                   </label>
                   <input
                     type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
+                    id="company"
+                    name="company"
+                    value={formData.company}
                     onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:outline-none transition-colors"
-                    placeholder="Your full name"
+                    className="input-field"
+                    placeholder="Your company (optional)"
                   />
                 </div>
 
+                <div className="grid sm:grid-cols-3 gap-4">
+                  <div>
+                    <label htmlFor="projectType" className="block text-sm font-medium text-gray-300 mb-2">
+                      Project Type *
+                    </label>
+                    <select
+                      id="projectType"
+                      name="projectType"
+                      value={formData.projectType}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                    >
+                      <option value="">Select type</option>
+                      <option value="Web Development">Web Development</option>
+                      <option value="E-commerce">E-commerce</option>
+                      <option value="Mobile App">Mobile App</option>
+                      <option value="Blockchain">Blockchain</option>
+                      <option value="API Integration">API Integration</option>
+                      <option value="Consulting">Consulting</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="budget" className="block text-sm font-medium text-gray-300 mb-2">
+                      Budget *
+                    </label>
+                    <select
+                      id="budget"
+                      name="budget"
+                      value={formData.budget}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                    >
+                      <option value="">Select budget</option>
+                      <option value="€5k-15k">€5k-15k</option>
+                      <option value="€15k-30k">€15k-30k</option>
+                      <option value="€30k-50k">€30k-50k</option>
+                      <option value="€50k+">€50k+</option>
+                      <option value="Discuss">Let&apos;s Discuss</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="timeline" className="block text-sm font-medium text-gray-300 mb-2">
+                      Timeline *
+                    </label>
+                    <select
+                      id="timeline"
+                      name="timeline"
+                      value={formData.timeline}
+                      onChange={handleChange}
+                      required
+                      className="input-field"
+                    >
+                      <option value="">Select timeline</option>
+                      <option value="ASAP">ASAP</option>
+                      <option value="1-3 months">1-3 months</option>
+                      <option value="3-6 months">3-6 months</option>
+                      <option value="6+ months">6+ months</option>
+                      <option value="Flexible">Flexible</option>
+                    </select>
+                  </div>
+                </div>
+
                 <div>
-                  <label htmlFor="email" className="block text-white font-semibold mb-2">
-                    Email *
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                    Project Details *
                   </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:outline-none transition-colors"
-                    placeholder="your@email.com"
+                    rows={5}
+                    className="input-field resize-none"
+                    placeholder="Tell me about your project requirements..."
                   />
                 </div>
-              </div>
 
-              <div>
-                <label htmlFor="company" className="block text-white font-semibold mb-2">
-                  Company/Organization
-                </label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:outline-none transition-colors"
-                  placeholder="Your company or organization (optional)"
-                />
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="projectType" className="block text-white font-semibold mb-2">
-                    Project Type *
-                  </label>
-                  <select
-                    id="projectType"
-                    name="projectType"
-                    value={formData.projectType}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-primary focus:outline-none transition-colors"
-                  >
-                    <option value="">Select project type</option>
-                    <option value="Web Development">Web Development</option>
-                    <option value="E-commerce Platform">E-commerce Platform</option>
-                    <option value="Mobile App">Mobile App</option>
-                    <option value="Blockchain/DeFi">Blockchain/DeFi</option>
-                    <option value="API Integration">API Integration</option>
-                    <option value="Legacy System Migration">Legacy System Migration</option>
-                    <option value="Technical Consulting">Technical Consulting</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="budget" className="block text-white font-semibold mb-2">
-                    Budget Range *
-                  </label>
-                  <select
-                    id="budget"
-                    name="budget"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-primary focus:outline-none transition-colors"
-                  >
-                    <option value="">Select budget range</option>
-                    <option value="€5k-15k">€5k-15k</option>
-                    <option value="€15k-30k">€15k-30k</option>
-                    <option value="€30k-50k">€30k-50k</option>
-                    <option value="€50k+">€50k+</option>
-                    <option value="Let's Discuss">Let&apos;s Discuss</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="timeline" className="block text-white font-semibold mb-2">
-                  Timeline *
-                </label>
-                <select
-                  id="timeline"
-                  name="timeline"
-                  value={formData.timeline}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:border-primary focus:outline-none transition-colors"
+                <motion.button
+                  type="submit"
+                  disabled={state.submitting}
+                  whileHover={{ scale: state.submitting ? 1 : 1.02 }}
+                  whileTap={{ scale: state.submitting ? 1 : 0.98 }}
+                  onMouseEnter={() => setCursorVariant('button')}
+                  onMouseLeave={() => setCursorVariant('default')}
+                  className={`w-full btn-primary flex items-center justify-center gap-2 ${
+                    state.submitting ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                 >
-                  <option value="">Select timeline</option>
-                  <option value="ASAP">ASAP</option>
-                  <option value="1-3 months">1-3 months</option>
-                  <option value="3-6 months">3-6 months</option>
-                  <option value="6+ months">6+ months</option>
-                  <option value="Flexible">Flexible</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-white font-semibold mb-2">
-                  Project Details *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={6}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-primary focus:outline-none transition-colors resize-none"
-                  placeholder="Tell me about your project requirements, goals, and any specific technologies or features you need..."
-                />
-              </div>
-
-              <motion.button
-                type="submit"
-                disabled={state.submitting}
-                whileHover={{ scale: state.submitting ? 1 : 1.02 }}
-                whileTap={{ scale: state.submitting ? 1 : 0.98 }}
-                className={`w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
-                  state.submitting
-                    ? 'bg-gray-600 text-white cursor-not-allowed'
-                    : 'bg-primary hover:bg-primary-hover text-white'
-                }`}
-              >
-                {state.submitting ? (
-                  <>
-                    <Send size={20} className="animate-pulse" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send size={20} />
-                    Send Message
-                  </>
-                )}
-              </motion.button>
-            </form>
+                  {state.submitting ? (
+                    <>
+                      <Send size={18} className="animate-pulse" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={18} />
+                      Send Message
+                    </>
+                  )}
+                </motion.button>
+              </form>
             )}
           </motion.div>
         </div>
