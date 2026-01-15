@@ -56,7 +56,7 @@ const Projects = () => {
             Featured <span className="text-primary">Projects</span>
           </h2>
           <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-            Real projects showcasing 5+ years of full-stack development expertise,
+            Real projects showcasing 6+ years of full-stack development expertise,
             from enterprise platforms to innovative blockchain solutions.
           </p>
         </motion.div>

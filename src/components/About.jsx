@@ -55,7 +55,7 @@ const About = () => {
               Freelance Full-Stack Developer
             </h3>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              With over 5 years of experience in web development, I bring versatile expertise 
+              With over 6 years of experience in web development, I bring versatile expertise 
               in PHP, NodeJS, VueJS, and Python to create robust, scalable applications. 
               My autonomous approach and innovative mindset make me an ideal partner for your freelance projects.
             </p>

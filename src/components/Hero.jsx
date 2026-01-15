@@ -50,7 +50,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-lg sm:text-xl text-gray-400 mb-12 max-w-2xl mx-auto"
           >
-            Full-Stack Developer with over 5 years of experience, expert in PHP, NodeJS, VueJS, and Python. 
+            Full-Stack Developer with over 6 years of experience, expert in PHP, NodeJS, VueJS, and Python. 
             Versatile and autonomous, ready to bring technical skills and innovative mindset to your freelance projects.
           </motion.p>
 
