@@ -27,7 +27,7 @@ const Header = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800"
+      className="fixed top-0 left-0 right-0 w-full z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800"
       role="banner"
     >
       <nav className="container-custom" role="navigation" aria-label="Main navigation">
