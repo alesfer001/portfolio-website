@@ -2,44 +2,100 @@ import { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Quote, Star } from 'lucide-react';
 import { SectionHeading } from './common';
+import PropTypes from 'prop-types';
 
-// Placeholder testimonials - replace with real ones
 const testimonials = [
   {
     quote:
-      "Ayoub transformed our legacy e-commerce platform and increased our API adoption from 30% to 90%. His technical expertise and communication were outstanding throughout the project.",
-    author: 'Project Manager',
+      "An <highlight>undeniable asset</highlight> for autonomous teams. His <highlight>rapid understanding</highlight> of complex issues consistently led to <highlight>proactive solutions</highlight>.",
+    author: 'Guillaume Jariot',
     company: 'BricoPrive',
-    role: 'E-commerce Platform',
+    role: 'Head of Development',
     rating: 5,
   },
   {
     quote:
-      "Exceptional full-stack developer who delivered our dining management platform with seamless multi-system integrations. Highly recommended for complex enterprise projects.",
-    author: 'Technical Lead',
-    company: 'eMenuChoice',
-    role: 'Healthcare Tech',
+      "<highlight>Impressive mastery</highlight> of technical challenges. He optimized features through <highlight>innovative solutions</highlight>, notably an intelligent router for pool exchanges.",
+    author: 'Semlali M.',
+    company: 'Sigma',
+    role: 'Senior Full Stack Developer',
     rating: 5,
   },
   {
     quote:
-      "Ayoub built our complete works council management solution including mobile apps. His ability to handle both backend architecture and frontend development is impressive.",
-    author: 'Product Owner',
+      "Delivered a <highlight>complete management solution</highlight> with custom features. Integrated <highlight>multiple payment systems</highlight> and Algolia search with <highlight>scalable architecture</highlight>.",
+    author: 'Neven C.',
     company: 'EnjoyMonCSE',
-    role: 'B2B SaaS Platform',
+    role: 'Laravel VueJS Developer',
     rating: 5,
   },
   {
     quote:
-      "Working with Ayoub on our blockchain DEX project showcased his ability to quickly adapt to new technologies. His smart contract work was clean and well-documented.",
-    author: 'Founder',
-    company: 'Alephium DEX',
-    role: 'DeFi Project',
+      "<highlight>Effortlessly juggled</highlight> PHP, NodeJS, and Python. Acquired new skills at an <highlight>impressive pace</highlight> and consistently explored new tools.",
+    author: 'Guillaume Jariot',
+    company: 'BricoPrive',
+    role: 'Head of Development',
+    rating: 5,
+  },
+  {
+    quote:
+      "<highlight>Mastered smart contracts</highlight> in Ralph, TypeScript backend, and React frontend. Created <highlight>intuitive interfaces</highlight> for swap and liquidity operations.",
+    author: 'Semlali M.',
+    company: 'Sigma',
+    role: 'Senior Full Stack Developer',
+    rating: 5,
+  },
+  {
+    quote:
+      "<highlight>Key player</highlight> in critical projects with innovative solutions. Delivered <highlight>hybrid mobile apps on time</highlight> with Agile Scrum methodology.",
+    author: 'Neven C.',
+    company: 'EnjoyMonCSE',
+    role: 'Laravel VueJS Developer',
+    rating: 5,
+  },
+  {
+    quote:
+      "An <highlight>indispensable team member</highlight>. Balances <highlight>multiple complex tasks</highlight> while staying focused on <highlight>optimal performance</highlight>.",
+    author: 'Semlali M.',
+    company: 'Sigma',
+    role: 'Senior Full Stack Developer',
+    rating: 5,
+  },
+  {
+    quote:
+      "Took <highlight>full technical ownership</highlight> with NodeJS and React. <highlight>Anticipated user needs</highlight> with practical features. Working with him was a <highlight>real pleasure</highlight>.",
+    author: 'Saad Iguider',
+    company: 'MealPlanner',
+    role: 'Lead Tech',
+    rating: 5,
+  },
+  {
+    quote:
+      "<highlight>Exceptionally easy to work with</highlight>. Demonstrates <highlight>great adaptability</highlight> and seamlessly adjusts to organizational changes while bringing expertise.",
+    author: 'Guillaume Jariot',
+    company: 'BricoPrive',
+    role: 'Head of Development',
     rating: 5,
   },
 ];
 
 const TestimonialCard = ({ testimonial }) => {
+  // Parse quote to highlight specific words
+  const renderQuote = (quote) => {
+    const parts = quote.split(/(<highlight>.*?<\/highlight>)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('<highlight>')) {
+        const text = part.replace(/<\/?highlight>/g, '');
+        return (
+          <span key={index} className="text-white font-medium">
+            {text}
+          </span>
+        );
+      }
+      return <span key={index}>{part}</span>;
+    });
+  };
+
   return (
     <div className="flex-shrink-0 w-[350px] md:w-[400px] mx-3">
       <div className="h-full card p-6 flex flex-col">
@@ -55,7 +111,7 @@ const TestimonialCard = ({ testimonial }) => {
 
         {/* Quote */}
         <p className="text-gray-300 text-sm leading-relaxed mb-6 flex-grow">
-          "{testimonial.quote}"
+          {renderQuote(testimonial.quote)}
         </p>
 
         {/* Author */}
@@ -76,6 +132,16 @@ const TestimonialCard = ({ testimonial }) => {
       </div>
     </div>
   );
+};
+
+TestimonialCard.propTypes = {
+  testimonial: PropTypes.shape({
+    quote: PropTypes.string.isRequired,
+    author: PropTypes.string.isRequired,
+    company: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+  }).isRequired,
 };
 
 const Testimonials = () => {
