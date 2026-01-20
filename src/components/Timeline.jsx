@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Briefcase } from 'lucide-react';
 import { SectionHeading } from './common';
+import PropTypes from 'prop-types';
 
 const experiences = [
   {
@@ -12,6 +13,26 @@ const experiences = [
       'Leading development of dining services management platform for senior living communities. Implementing multi-system integrations and automated workflows.',
     technologies: ['PHP 8.4', 'CodeIgniter', 'React', 'MariaDB', 'Docker'],
     type: 'current',
+  },
+  {
+    period: '2025',
+    title: 'Full-Stack Developer',
+    company: 'MealPlanner',
+    location: 'Remote',
+    description:
+      'Developed personal meal planning application with automatic meal plan generation and customization. Led full technical implementation.',
+    technologies: ['ReactNative'],
+    type: 'side-project',
+  },
+  {
+    period: '2023 - 2024',
+    title: 'Blockchain Developer',
+    company: 'Sigma (Alephium DEX)',
+    location: 'Remote',
+    description:
+      'Built decentralized exchange on Alephium blockchain. Developed smart contracts, intelligent routing system, and intuitive swap interface.',
+    technologies: ['Ralph', 'TypeScript', 'React', 'Smart Contracts'],
+    type: 'side-project',
   },
   {
     period: '2022 - 2024',
@@ -64,7 +85,13 @@ const TimelineItem = ({ experience, index }) => {
         whileInView={{ scale: 1 }}
         viewport={{ once: true }}
         transition={{ type: 'spring', stiffness: 200, delay: index * 0.1 + 0.2 }}
-        className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-accent-1 border-4 border-[var(--color-bg-primary)] z-10 hidden lg:block"
+        className={`absolute w-4 h-4 rounded-full border-4 border-[var(--color-bg-primary)] z-10 hidden lg:block ${
+          experience.type === 'side-project' ? 'bg-accent-3' : 'bg-accent-1'
+        } ${
+          isLeft
+            ? 'left-[calc(50%-15px)]'
+            : 'left-[calc(50%+0px)]'
+        }`}
       >
         {/* Pulse effect for current */}
         {experience.type === 'current' && (
@@ -79,10 +106,17 @@ const TimelineItem = ({ experience, index }) => {
         }`}
       >
         <div className="card p-6 inline-block w-full">
-          {/* Period Badge */}
-          <span className="inline-block px-3 py-1 rounded-full text-xs font-mono text-accent-1 bg-accent-1/10 mb-4">
-            {experience.period}
-          </span>
+          {/* Badges */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            <span className="inline-block px-3 py-1 rounded-full text-xs font-mono text-accent-1 bg-accent-1/10">
+              {experience.period}
+            </span>
+            {experience.type === 'side-project' && (
+              <span className="inline-block px-3 py-1 rounded-full text-xs font-medium text-accent-3 bg-accent-3/10 border border-accent-3/20">
+                Side Project
+              </span>
+            )}
+          </div>
 
           {/* Title */}
           <h3 className="font-display text-xl font-bold mb-1">
@@ -118,6 +152,19 @@ const TimelineItem = ({ experience, index }) => {
       <div className="hidden lg:block" />
     </motion.div>
   );
+};
+
+TimelineItem.propTypes = {
+  experience: PropTypes.shape({
+    period: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    company: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    technologies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    type: PropTypes.oneOf(['current', 'past', 'education', 'side-project']).isRequired,
+  }).isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 const Timeline = () => {
