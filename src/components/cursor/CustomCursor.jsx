@@ -98,7 +98,7 @@ const CustomCursor = () => {
     <>
       {/* Main cursor ring */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[9999] flex items-center justify-center mix-blend-difference"
+        className="fixed top-0 left-0 rounded-full pointer-events-none z-[99999] flex items-center justify-center mix-blend-difference"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -130,7 +130,7 @@ const CustomCursor = () => {
 
       {/* Cursor dot (center) */}
       <motion.div
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full pointer-events-none z-[9999]"
+        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full pointer-events-none z-[99999]"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
