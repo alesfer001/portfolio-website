@@ -60,7 +60,7 @@ const projects = [
     date: '2025',
     status: 'Completed',
     highlight: 'One-tap weekly meal generation',
-    image: '/projects/mealplanner.png',
+    image: '/projects/mealplanner.jpeg',
     link: 'https://github.com/alesfer001/MealPlanner',
     metrics: [
       { value: '7-Day', label: 'Meal Plans' },
@@ -118,7 +118,7 @@ const FeaturedProjectCard = ({ project, onToggleExpand }) => {
       onHoverEnd={() => setIsHovered(false)}
       onMouseEnter={() => setCursorVariant('hover')}
       onMouseLeave={() => setCursorVariant('default')}
-      className="relative col-span-12 lg:col-span-8 row-span-2 rounded-3xl overflow-hidden cursor-pointer group"
+      className="relative col-span-12 lg:col-span-8 h-[500px] rounded-3xl overflow-hidden cursor-pointer group"
       onClick={handleCardClick}
     >
       {/* Background Image */}
@@ -139,7 +139,7 @@ const FeaturedProjectCard = ({ project, onToggleExpand }) => {
       </div>
 
       {/* Content */}
-      <div className="relative h-full min-h-[400px] lg:min-h-[500px] p-8 flex flex-col justify-end">
+      <div className="relative h-full p-8 flex flex-col justify-end">
         {/* Status Badge */}
         <motion.span
           initial={{ opacity: 0, y: 20 }}
@@ -232,8 +232,21 @@ const ProjectCard = ({ project, index, onToggleExpand }) => {
       onClick={handleCardClick}
       onMouseEnter={() => setCursorVariant('hover')}
       onMouseLeave={() => setCursorVariant('default')}
-      className="col-span-12 lg:col-span-4 card p-6 cursor-pointer group"
+      className="col-span-12 lg:col-span-4 card overflow-hidden cursor-pointer group"
     >
+      {/* Project Image */}
+      {project.image && (
+        <div className="relative h-40 overflow-hidden">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-secondary)] to-transparent" />
+        </div>
+      )}
+
+      <div className="p-6">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <span
@@ -318,6 +331,7 @@ const ProjectCard = ({ project, index, onToggleExpand }) => {
           <span className="text-xs font-medium">Contact</span>
         </motion.button>
       </div>
+      </div>
     </motion.div>
   );
 };
@@ -352,17 +366,13 @@ const ExpandedProjectCard = ({ project, onClose }) => {
         } max-h-[85vh] overflow-y-auto rounded-3xl bg-[var(--color-bg-secondary)] border border-white/10 shadow-2xl`}
       >
       {/* Background Image for featured */}
-      {isFeatured && (
+      {isFeatured && project.image && (
         <div className="absolute inset-0">
-          {project.image ? (
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-accent-1/20 to-accent-2/20" />
-          )}
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-primary)] via-[var(--color-bg-primary)]/85 to-transparent" />
         </div>
       )}
@@ -374,6 +384,18 @@ const ExpandedProjectCard = ({ project, onClose }) => {
       >
         <span className="text-white text-2xl font-bold leading-none">&times;</span>
       </button>
+
+      {/* Image for non-featured projects */}
+      {!isFeatured && project.image && (
+        <div className="relative h-48 overflow-hidden rounded-t-3xl">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-secondary)] to-transparent" />
+        </div>
+      )}
 
       {/* Content */}
       <div className={`relative p-8 ${isFeatured ? 'min-h-[500px] flex flex-col justify-end' : ''}`}>
