@@ -17,7 +17,7 @@ const testimonials = [
     quote:
       "<highlight>Impressive mastery</highlight> of technical challenges. He optimized features through <highlight>innovative solutions</highlight>, notably an intelligent router for pool exchanges.",
     author: 'Semlali M.',
-    company: 'Sigma',
+    company: 'Shin',
     role: 'Senior Full Stack Developer',
     rating: 5,
   },
@@ -41,7 +41,7 @@ const testimonials = [
     quote:
       "<highlight>Mastered smart contracts</highlight> in Ralph, TypeScript backend, and React frontend. Created <highlight>intuitive interfaces</highlight> for swap and liquidity operations.",
     author: 'Semlali M.',
-    company: 'Sigma',
+    company: 'Shin',
     role: 'Senior Full Stack Developer',
     rating: 5,
   },
@@ -57,7 +57,7 @@ const testimonials = [
     quote:
       "An <highlight>indispensable team member</highlight>. Balances <highlight>multiple complex tasks</highlight> while staying focused on <highlight>optimal performance</highlight>.",
     author: 'Semlali M.',
-    company: 'Sigma',
+    company: 'Shin',
     role: 'Senior Full Stack Developer',
     rating: 5,
   },

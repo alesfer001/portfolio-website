@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, Calendar, Rocket } from 'lucide-react';
+import { MessageCircle, Calendar, Rocket, ExternalLink } from 'lucide-react';
 import { trackProjectInterest } from '../utils/analytics';
 import { SectionHeading } from './common';
 import { useCursor } from './cursor';
@@ -38,14 +38,15 @@ const projects = [
     ],
   },
   {
-    title: 'Alephium DEX',
-    tagline: 'Blockchain DeFi platform',
+    title: 'Shin',
+    tagline: 'Alephium DEX - Blockchain DeFi platform',
     description: 'Decentralized exchange on Alephium blockchain with optimized router for efficient multi-pool swaps. Built advanced routing algorithms for best price execution.',
     technologies: ['Ralph/Rust', 'React', 'TypeScript', 'Smart Contracts'],
     date: 'Mar 2023 - Present',
     status: 'On Hold',
     highlight: 'Optimized swap routing',
     image: '/projects/alephium-dex.png',
+    link: 'https://shin-nine.vercel.app/',
     metrics: [
       { value: 'Smart', label: 'Router' },
       { value: 'Multi-Pool', label: 'Swaps' },
@@ -276,8 +277,22 @@ const ProjectCard = ({ project, index, onToggleExpand }) => {
         )}
       </div>
 
-      {/* Message Icon */}
-      <div className="mt-auto flex justify-end">
+      {/* Action Buttons */}
+      <div className="mt-auto flex justify-end gap-2">
+        {project.link && (
+          <motion.a
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-accent-1/10 text-accent-1 hover:bg-accent-1/20"
+            onClick={(e) => e.stopPropagation()}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <ExternalLink size={16} />
+            <span className="text-xs font-medium">View</span>
+          </motion.a>
+        )}
         <motion.button
           className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
           onClick={handleContactClick}
@@ -403,8 +418,21 @@ const ExpandedProjectCard = ({ project, onClose }) => {
           ))}
         </div>
 
-        {/* Contact Button */}
-        <div className="flex justify-end">
+        {/* Action Buttons */}
+        <div className="flex justify-end gap-3">
+          {project.link && (
+            <motion.a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent-2/20 text-accent-2 border border-accent-2/30"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <ExternalLink size={18} />
+              <span className="font-medium text-sm">View Live</span>
+            </motion.a>
+          )}
           <motion.button
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent-1/20 text-accent-1 border border-accent-1/30"
             onClick={handleContactClick}

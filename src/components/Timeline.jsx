@@ -27,7 +27,7 @@ const experiences = [
   {
     period: '2023 - 2024',
     title: 'Blockchain Developer',
-    company: 'Sigma (Alephium DEX)',
+    company: 'Shin (Alephium DEX)',
     location: 'Remote',
     description:
       'Built decentralized exchange on Alephium blockchain. Developed smart contracts, intelligent routing system, and intuitive swap interface.',
