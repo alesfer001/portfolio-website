@@ -53,6 +53,21 @@ const projects = [
     ],
   },
   {
+    title: 'MealPlanner',
+    tagline: 'Smart meal planning mobile app',
+    description: 'React Native mobile application for streamlined weekly meal planning. Features one-tap 7-day meal plan generation with smart randomization, meal locking during regeneration, progress tracking, and data export/import for backups.',
+    technologies: ['React Native', 'TypeScript', 'React Navigation', 'AsyncStorage'],
+    date: '2025',
+    status: 'Completed',
+    highlight: 'One-tap weekly meal generation',
+    image: '/projects/mealplanner.png',
+    link: 'https://github.com/alesfer001/MealPlanner',
+    metrics: [
+      { value: '7-Day', label: 'Meal Plans' },
+      { value: 'iOS+Android', label: 'Platforms' },
+    ],
+  },
+  {
     title: 'EnjoyMonCSE',
     tagline: 'Works council management',
     description: 'Enterprise works councils management platform with eCommerce integration and mobile app. Trusted by major corporations including AGCO, Auchan, Safran, McDonald\'s, Eiffage, Hasbro, Valeo, Boulanger, and Leroy Merlin.',
