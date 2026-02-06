@@ -25,11 +25,18 @@ const Header = () => {
   ];
 
   const scrollToSection = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
     setIsMenuOpen(false);
+    // Small delay to let menu close before scrolling, avoids Lenis conflict
+    setTimeout(() => {
+      if (window.lenis) {
+        window.lenis.scrollTo(href, { offset: 0 });
+      } else {
+        const element = document.querySelector(href);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }, 100);
   };
 
   return (
