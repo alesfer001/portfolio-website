@@ -97,7 +97,7 @@ const SkillCard = ({ category, index }) => {
             <motion.span
               key={i}
               whileHover={{ scale: 1.05 }}
-              className="px-3 py-1.5 rounded-lg text-sm font-medium bg-white/5 text-white border border-white/10 hover:border-accent-1/50 transition-colors"
+              className="px-3 py-1.5 rounded-lg text-sm font-medium bg-white/10 text-white hover:bg-accent-1/20 transition-colors"
             >
               {skill}
             </motion.span>

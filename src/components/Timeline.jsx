@@ -112,7 +112,7 @@ const TimelineItem = ({ experience, index }) => {
               {experience.period}
             </span>
             {experience.type === 'side-project' && (
-              <span className="inline-block px-3 py-1 rounded-full text-xs font-medium text-accent-3 bg-accent-3/10 border border-accent-3/20">
+              <span className="inline-block px-3 py-1 rounded-full text-xs font-medium text-accent-3 bg-accent-3/15">
                 Side Project
               </span>
             )}

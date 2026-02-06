@@ -91,7 +91,7 @@ const About = () => {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: i * 0.05 }}
-                    className="px-3 py-1 rounded-full text-sm bg-accent-1/10 text-accent-1 border border-accent-1/20"
+                    className="px-3 py-1 rounded-full text-sm bg-accent-1/15 text-accent-1"
                   >
                     {tech}
                   </motion.span>

@@ -172,13 +172,12 @@
   }
 
   .btn-secondary {
-    @apply border border-gray-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300;
-    background: rgba(255, 255, 255, 0.02);
+    @apply text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300;
+    background: rgba(255, 255, 255, 0.08);
   }
 
   .btn-secondary:hover {
-    border-color: var(--color-accent-1);
-    background: rgba(99, 102, 241, 0.1);
+    background: rgba(99, 102, 241, 0.2);
     transform: translateY(-2px);
   }
 
@@ -210,15 +209,13 @@
   /* Technology tag hover effects */
   .tech-tag {
     @apply px-3 py-1 rounded-full text-sm transition-all duration-300;
-    background: rgba(99, 102, 241, 0.1);
+    background: rgba(99, 102, 241, 0.15);
     color: var(--color-accent-2);
-    border: 1px solid rgba(99, 102, 241, 0.2);
   }
 
   .tech-tag:hover {
     background: var(--gradient-primary);
     color: white;
-    border-color: transparent;
     transform: scale(1.05);
   }
 
