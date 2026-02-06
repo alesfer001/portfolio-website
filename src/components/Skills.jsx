@@ -134,7 +134,7 @@ const Skills = () => {
         </SectionHeading>
 
         {/* Skills Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-16">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-10">
           {skillCategories.map((category, index) => (
             <SkillCard key={category.title} category={category} index={index} />
           ))}
