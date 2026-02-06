@@ -75,11 +75,26 @@ const TimelineItem = ({ experience, index }) => {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className={`relative grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6 ${
+      className={`relative grid grid-cols-1 lg:grid-cols-2 gap-8 mb-3 lg:mb-6 pl-8 lg:pl-0 ${
         isLeft ? '' : 'lg:direction-rtl'
       }`}
     >
-      {/* Timeline Dot */}
+      {/* Timeline Dot - Mobile (left) */}
+      <motion.div
+        initial={{ scale: 0 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ type: 'spring', stiffness: 200, delay: index * 0.1 + 0.2 }}
+        className={`absolute w-3 h-3 rounded-full z-10 lg:hidden left-[3px] top-8 ${
+          experience.type === 'side-project' ? 'bg-accent-3' : 'bg-accent-1'
+        }`}
+      >
+        {experience.type === 'current' && (
+          <span className="absolute inset-0 rounded-full bg-accent-1 animate-ping opacity-50" />
+        )}
+      </motion.div>
+
+      {/* Timeline Dot - Desktop (center) */}
       <motion.div
         initial={{ scale: 0 }}
         whileInView={{ scale: 1 }}
@@ -93,7 +108,6 @@ const TimelineItem = ({ experience, index }) => {
             : 'left-[calc(50%+0px)]'
         }`}
       >
-        {/* Pulse effect for current */}
         {experience.type === 'current' && (
           <span className="absolute inset-0 rounded-full bg-accent-1 animate-ping opacity-50" />
         )}
@@ -179,7 +193,7 @@ const Timeline = () => {
         </SectionHeading>
 
         <div className="relative">
-          {/* Central Line */}
+          {/* Desktop Line (center) */}
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-accent-1 via-accent-2 to-accent-3 hidden lg:block" />
 
           {/* Timeline Items */}
