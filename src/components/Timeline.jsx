@@ -75,7 +75,7 @@ const TimelineItem = ({ experience, index }) => {
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className={`relative grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 ${
+      className={`relative grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6 ${
         isLeft ? '' : 'lg:direction-rtl'
       }`}
     >
