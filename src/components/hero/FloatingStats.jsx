@@ -21,6 +21,8 @@ const FloatingStats = () => {
             duration: 0.6,
             delay: 0.8 + index * 0.15,
             ease: [0.215, 0.61, 0.355, 1],
+            scale: { duration: 0.15, ease: 'easeOut', delay: 0 },
+            x: { duration: 0.15, ease: 'easeOut', delay: 0 },
           }}
           whileHover={{
             scale: 1.05,
