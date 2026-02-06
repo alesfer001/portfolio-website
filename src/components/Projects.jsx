@@ -438,7 +438,7 @@ const ExpandedProjectCard = ({ project, onClose }) => {
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent-2/20 text-accent-2 border border-accent-2/30"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent-2/20 text-accent-2"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -447,7 +447,7 @@ const ExpandedProjectCard = ({ project, onClose }) => {
             </motion.a>
           )}
           <motion.button
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent-1/20 text-accent-1 border border-accent-1/30"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent-1/20 text-accent-1"
             onClick={handleContactClick}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
