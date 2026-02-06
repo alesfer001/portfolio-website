@@ -92,9 +92,7 @@ const statusColors = {
 
 // Featured Project Card (Large)
 const FeaturedProjectCard = ({ project, onToggleExpand }) => {
-  const [isHovered, setIsHovered] = useState(false);
   const { setCursorVariant } = useCursor();
-  const cardRef = useRef(null);
 
   const handleCardClick = (e) => {
     e.stopPropagation();
@@ -109,45 +107,40 @@ const FeaturedProjectCard = ({ project, onToggleExpand }) => {
 
   return (
     <motion.div
-      ref={cardRef}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
       transition={{ duration: 0.6 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
       onMouseEnter={() => setCursorVariant('hover')}
       onMouseLeave={() => setCursorVariant('default')}
-      className="relative col-span-12 lg:col-span-8 h-[500px] rounded-3xl overflow-hidden cursor-pointer group"
+      className="col-span-12 lg:col-span-8 card overflow-hidden cursor-pointer group"
       onClick={handleCardClick}
     >
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        {project.image ? (
-          <motion.img
+      {/* Project Image */}
+      {project.image && (
+        <div className="relative h-56 lg:h-72 overflow-hidden">
+          <img
             src={project.image}
             alt={project.title}
-            className="w-full h-full object-cover"
-            animate={{ scale: isHovered ? 1.05 : 1 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-        ) : (
-          <div className="w-full h-full bg-gradient-to-br from-accent-1/20 to-accent-2/20" />
-        )}
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-primary)] via-[var(--color-bg-primary)]/70 to-transparent" />
-      </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-secondary)] to-transparent" />
+        </div>
+      )}
 
-      {/* Content */}
-      <div className="relative h-full p-8 flex flex-col justify-end">
-        {/* Status Badge */}
-        <motion.span
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className={`self-start px-3 py-1 rounded-full text-xs font-medium border ${statusColors[project.status]} mb-4`}
-        >
-          {project.status}
-        </motion.span>
+      <div className="p-8">
+        {/* Header */}
+        <div className="flex items-start justify-between mb-4">
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-medium border ${statusColors[project.status]}`}
+          >
+            {project.status}
+          </span>
+          <div className="flex items-center gap-1 text-xs text-gray-500">
+            <Calendar size={12} />
+            {project.date}
+          </div>
+        </div>
 
         {/* Title */}
         <h3 className="font-display text-3xl lg:text-4xl font-bold mb-2">
@@ -159,22 +152,15 @@ const FeaturedProjectCard = ({ project, onToggleExpand }) => {
           {project.tagline}
         </p>
 
-        {/* Metrics - visible on hover */}
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{
-            opacity: isHovered ? 1 : 0,
-            height: isHovered ? 'auto' : 0
-          }}
-          className="flex gap-8 mb-6 overflow-hidden"
-        >
+        {/* Metrics */}
+        <div className="flex gap-8 mb-6">
           {project.metrics?.map((metric, i) => (
             <div key={i}>
               <div className="text-2xl font-bold gradient-text">{metric.value}</div>
               <div className="text-sm text-gray-500">{metric.label}</div>
             </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* Highlight */}
         {project.highlight && (
@@ -187,22 +173,24 @@ const FeaturedProjectCard = ({ project, onToggleExpand }) => {
         {/* Tech Stack */}
         <div className="flex flex-wrap gap-2 mb-6">
           {project.technologies.map((tech, i) => (
-            <span key={i} className="tech-tag">
+            <span key={i} className="px-2 py-0.5 rounded-full text-xs bg-white/5 text-gray-400">
               {tech}
             </span>
           ))}
         </div>
 
-        {/* Message Icon */}
-        <motion.button
-          className="self-end flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 text-white hover:bg-white/10 group/msg"
-          onClick={handleContactClick}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <MessageCircle size={18} />
-          <span className="font-medium text-sm">Contact</span>
-        </motion.button>
+        {/* Contact Button */}
+        <div className="flex justify-end">
+          <motion.button
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
+            onClick={handleContactClick}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <MessageCircle size={18} />
+            <span className="font-medium text-sm">Contact</span>
+          </motion.button>
+        </div>
       </div>
     </motion.div>
   );
@@ -365,19 +353,7 @@ const ExpandedProjectCard = ({ project, onClose }) => {
           isFeatured ? 'max-w-[1000px]' : 'max-w-[700px]'
         } max-h-[85vh] overflow-y-auto rounded-3xl bg-[var(--color-bg-secondary)] border border-white/10 shadow-2xl`}
       >
-      {/* Background Image for featured */}
-      {isFeatured && project.image && (
-        <div className="absolute inset-0">
-          <img
-            src={project.image}
-            alt={project.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg-primary)] via-[var(--color-bg-primary)]/85 to-transparent" />
-        </div>
-      )}
-
-      {/* Close button - positioned absolutely within motion.div */}
+      {/* Close button */}
       <button
         onClick={onClose}
         className="absolute top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-colors"
@@ -385,9 +361,9 @@ const ExpandedProjectCard = ({ project, onClose }) => {
         <span className="text-white text-2xl font-bold leading-none">&times;</span>
       </button>
 
-      {/* Image for non-featured projects */}
-      {!isFeatured && project.image && (
-        <div className="relative h-48 overflow-hidden rounded-t-3xl">
+      {/* Project Image */}
+      {project.image && (
+        <div className={`relative ${isFeatured ? 'h-64 lg:h-80' : 'h-48'} overflow-hidden rounded-t-3xl`}>
           <img
             src={project.image}
             alt={project.title}
@@ -398,7 +374,7 @@ const ExpandedProjectCard = ({ project, onClose }) => {
       )}
 
       {/* Content */}
-      <div className={`relative p-8 ${isFeatured ? 'min-h-[500px] flex flex-col justify-end' : ''}`}>
+      <div className="relative p-8">
 
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
