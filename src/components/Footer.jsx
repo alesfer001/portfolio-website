@@ -129,7 +129,14 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="text-gray-600 text-sm">
-            © {currentYear} Ayoub Lesfer. Built with React & Framer Motion.
+            © {currentYear} Ayoub Lesfer. Built with React &{' '}
+            <motion.span
+              className="inline-block text-red-500 text-xs relative -top-[1px]"
+              animate={{ scale: [1, 1.3, 1] }}
+              transition={{ duration: 0.8, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              ♥
+            </motion.span>
           </div>
 
           <motion.button
