@@ -45,7 +45,7 @@ const Header = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
-        isScrolled || isMenuOpen ? 'glass' : 'bg-transparent'
+        isMenuOpen ? 'bg-[#12121a] h-screen' : isScrolled ? 'glass' : 'bg-transparent'
       }`}
       role="banner"
     >
