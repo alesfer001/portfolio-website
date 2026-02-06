@@ -88,7 +88,7 @@ const Hero = () => {
                 transition={{ duration: 0.6, delay: 0.8 }}
                 className="mt-6 text-xl sm:text-2xl text-gray-400 max-w-xl"
               >
-                <span className="gradient-text font-semibold">Full-Stack Developer</span> crafting
+                <span className="gradient-text font-semibold">Senior Full-Stack Developer</span> crafting
                 performant web experiences with modern technologies.
               </motion.p>
 
