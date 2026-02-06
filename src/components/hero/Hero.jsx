@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { ArrowDown, Github, Linkedin, Mail, Download, MapPin } from 'lucide-react';
 import { FaXTwitter } from 'react-icons/fa6';
 import { trackResumeDownload } from '../../utils/analytics';
-import { MagneticButton } from '../common';
 import { useCursor } from '../cursor';
 import HeroTextReveal from './HeroTextReveal';
 import FloatingStats from './FloatingStats';
@@ -111,16 +110,20 @@ const Hero = () => {
                 transition={{ duration: 0.6, delay: 1 }}
                 className="mt-10 flex flex-wrap gap-4"
               >
-                <MagneticButton
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => scrollToSection('#contact')}
                   onMouseEnter={() => setCursorVariant('button')}
                   onMouseLeave={() => setCursorVariant('default')}
                   className="btn-primary flex items-center gap-2"
                 >
                   Get In Touch
-                </MagneticButton>
+                </motion.button>
 
-                <MagneticButton
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={handleResumeDownload}
                   onMouseEnter={() => setCursorVariant('button')}
                   onMouseLeave={() => setCursorVariant('default')}
@@ -128,16 +131,18 @@ const Hero = () => {
                 >
                   <Download size={18} />
                   Download Resume
-                </MagneticButton>
+                </motion.button>
 
-                <MagneticButton
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   onClick={() => scrollToSection('#projects')}
                   onMouseEnter={() => setCursorVariant('button')}
                   onMouseLeave={() => setCursorVariant('default')}
                   className="btn-secondary"
                 >
                   View My Work
-                </MagneticButton>
+                </motion.button>
               </motion.div>
 
               {/* Social Links */}
