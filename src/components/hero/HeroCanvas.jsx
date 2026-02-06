@@ -1,159 +1,176 @@
-import { useRef, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+import { useRef, useEffect, useCallback } from 'react';
+
+const NODE_COUNT = 80;
+const CONNECTION_DIST = 180;
+const MOUSE_RADIUS = 250;
+const MOUSE_FORCE = 0.03;
 
 /**
- * Animated gradient sphere that responds subtly to time
- */
-const GradientSphere = ({ position, scale, speed }) => {
-  const meshRef = useRef();
-  const materialRef = useRef();
-
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uColorA: { value: new THREE.Color('#6366F1') },
-      uColorB: { value: new THREE.Color('#8B5CF6') },
-      uColorC: { value: new THREE.Color('#EC4899') },
-    }),
-    []
-  );
-
-  useFrame((state) => {
-    if (materialRef.current) {
-      materialRef.current.uniforms.uTime.value = state.clock.elapsedTime * speed;
-    }
-    if (meshRef.current) {
-      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.1) * 0.1;
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.05;
-    }
-  });
-
-  const vertexShader = `
-    varying vec2 vUv;
-    varying vec3 vPosition;
-    uniform float uTime;
-
-    void main() {
-      vUv = uv;
-      vPosition = position;
-
-      vec3 pos = position;
-      float noise = sin(pos.x * 2.0 + uTime) * cos(pos.y * 2.0 + uTime) * 0.1;
-      pos += normal * noise;
-
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-    }
-  `;
-
-  const fragmentShader = `
-    uniform float uTime;
-    uniform vec3 uColorA;
-    uniform vec3 uColorB;
-    uniform vec3 uColorC;
-    varying vec2 vUv;
-    varying vec3 vPosition;
-
-    void main() {
-      float mixValue = sin(vUv.x * 3.14159 + uTime * 0.5) * 0.5 + 0.5;
-      vec3 color1 = mix(uColorA, uColorB, mixValue);
-      vec3 color2 = mix(uColorB, uColorC, vUv.y);
-      vec3 finalColor = mix(color1, color2, sin(uTime * 0.3) * 0.5 + 0.5);
-
-      float alpha = 0.6 - length(vUv - 0.5) * 0.8;
-      gl_FragColor = vec4(finalColor, alpha * 0.4);
-    }
-  `;
-
-  return (
-    <mesh ref={meshRef} position={position} scale={scale}>
-      <icosahedronGeometry args={[1, 4]} />
-      <shaderMaterial
-        ref={materialRef}
-        uniforms={uniforms}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        transparent
-        depthWrite={false}
-        blending={THREE.AdditiveBlending}
-      />
-    </mesh>
-  );
-};
-
-/**
- * Floating particles
- */
-const Particles = ({ count = 100 }) => {
-  const points = useRef();
-
-  const particlesPosition = useMemo(() => {
-    const positions = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 20;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 20;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 10;
-    }
-    return positions;
-  }, [count]);
-
-  useFrame((state) => {
-    if (points.current) {
-      points.current.rotation.y = state.clock.elapsedTime * 0.02;
-      points.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.1) * 0.1;
-    }
-  });
-
-  return (
-    <points ref={points}>
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          count={count}
-          array={particlesPosition}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
-        size={0.03}
-        color="#8B5CF6"
-        transparent
-        opacity={0.6}
-        sizeAttenuation
-      />
-    </points>
-  );
-};
-
-/**
- * Scene containing all 3D elements
- */
-const Scene = () => {
-  return (
-    <>
-      <ambientLight intensity={0.5} />
-      <GradientSphere position={[-3, 1, -2]} scale={2.5} speed={0.3} />
-      <GradientSphere position={[4, -1, -3]} scale={1.8} speed={0.4} />
-      <GradientSphere position={[0, 2, -4]} scale={1.2} speed={0.5} />
-      <Particles count={150} />
-    </>
-  );
-};
-
-/**
- * HeroCanvas - WebGL background with animated gradient meshes
+ * HeroCanvas - Mesh network background with magnetic cursor interaction
  */
 const HeroCanvas = () => {
+  const canvasRef = useRef(null);
+  const nodesRef = useRef([]);
+  const mouseRef = useRef({ x: -1000, y: -1000 });
+  const animRef = useRef(null);
+
+  const initNodes = useCallback((width, height) => {
+    const nodes = [];
+    for (let i = 0; i < NODE_COUNT; i++) {
+      nodes.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: Math.random() * 2 + 1.5,
+      });
+    }
+    return nodes;
+  }, []);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let width, height;
+
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      nodesRef.current = initNodes(width, height);
+    };
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    // Listen on window so mouse events aren't blocked by content z-index layers
+    const onMouseMove = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current.x = e.clientX - rect.left;
+      mouseRef.current.y = e.clientY - rect.top;
+    };
+
+    const onMouseLeave = () => {
+      mouseRef.current.x = -1000;
+      mouseRef.current.y = -1000;
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseleave', onMouseLeave);
+
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+      const nodes = nodesRef.current;
+      const mouse = mouseRef.current;
+
+      // Only apply mouse effects when cursor is within canvas bounds
+      const mouseActive = mouse.x >= 0 && mouse.x <= width && mouse.y >= 0 && mouse.y <= height;
+
+      // Update nodes
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+
+        // Drift movement
+        node.x += node.vx;
+        node.y += node.vy;
+
+        // Magnetic cursor repulsion
+        if (mouseActive) {
+          const dx = node.x - mouse.x;
+          const dy = node.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MOUSE_RADIUS && dist > 0) {
+            const force = (MOUSE_RADIUS - dist) / MOUSE_RADIUS;
+            node.x += (dx / dist) * force * MOUSE_FORCE * MOUSE_RADIUS * 0.05;
+            node.y += (dy / dist) * force * MOUSE_FORCE * MOUSE_RADIUS * 0.05;
+          }
+        }
+
+        // Wrap around edges
+        if (node.x < -20) node.x = width + 20;
+        if (node.x > width + 20) node.x = -20;
+        if (node.y < -20) node.y = height + 20;
+        if (node.y > height + 20) node.y = -20;
+      }
+
+      // Draw connections between nodes
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < CONNECTION_DIST) {
+            const alpha = (1 - dist / CONNECTION_DIST) * 0.45;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = `rgba(99, 102, 241, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw cursor connections (brighter lines to nearby nodes)
+      if (mouseActive) {
+        for (let i = 0; i < nodes.length; i++) {
+          const dx = nodes[i].x - mouse.x;
+          const dy = nodes[i].y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < MOUSE_RADIUS) {
+            const alpha = (1 - dist / MOUSE_RADIUS) * 0.6;
+            ctx.beginPath();
+            ctx.moveTo(mouse.x, mouse.y);
+            ctx.lineTo(nodes[i].x, nodes[i].y);
+            ctx.strokeStyle = `rgba(139, 92, 246, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Draw nodes
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        const dx = node.x - mouse.x;
+        const dy = node.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const nearCursor = mouseActive && dist < MOUSE_RADIUS;
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+        ctx.fillStyle = nearCursor
+          ? `rgba(139, 92, 246, ${0.7 + (1 - dist / MOUSE_RADIUS) * 0.3})`
+          : 'rgba(99, 102, 241, 0.6)';
+        ctx.fill();
+      }
+
+      animRef.current = requestAnimationFrame(animate);
+    };
+
+    animRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animRef.current);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseleave', onMouseLeave);
+    };
+  }, [initNodes]);
+
   return (
-    <div className="absolute inset-0 -z-10">
-      <Canvas
-        camera={{ position: [0, 0, 8], fov: 45 }}
-        dpr={[1, 2]}
-        gl={{ antialias: true, alpha: true }}
-      >
-        <Scene />
-      </Canvas>
-      {/* Gradient overlay for depth */}
+    <div className="absolute inset-0 z-0 overflow-hidden">
+      <canvas ref={canvasRef} className="absolute inset-0" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--color-bg-primary)]" />
     </div>
   );

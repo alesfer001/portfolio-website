@@ -64,7 +64,7 @@ const Hero = () => {
         <div className="container-custom w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center">
             {/* Left Content - Text */}
-            <div className="lg:col-span-7 xl:col-span-8">
+            <div className="lg:col-span-7">
               {/* Role Badge */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -176,7 +176,7 @@ const Hero = () => {
             </div>
 
             {/* Right Content - Stats */}
-            <div className="lg:col-span-5 xl:col-span-4 hidden lg:flex justify-end">
+            <div className="lg:col-span-5 hidden lg:flex justify-end">
               <FloatingStats />
             </div>
           </div>
