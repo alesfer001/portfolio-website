@@ -60,7 +60,7 @@ const FloatingActions = () => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 100 }}
           transition={{ duration: 0.3 }}
-          className="fixed right-6 bottom-6 z-50 flex flex-col gap-3"
+          className="fixed right-6 bottom-6 z-50 hidden md:flex flex-col gap-3"
         >
           {buttons.map((button, index) => (
             <motion.button
