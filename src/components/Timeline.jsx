@@ -85,7 +85,7 @@ const TimelineItem = ({ experience, index }) => {
         whileInView={{ scale: 1 }}
         viewport={{ once: true }}
         transition={{ type: 'spring', stiffness: 200, delay: index * 0.1 + 0.2 }}
-        className={`absolute w-3 h-3 rounded-full z-10 lg:hidden left-[3px] top-8 ${
+        className={`absolute w-4 h-4 rounded-full z-10 lg:hidden left-0 top-1/2 -mt-2 ${
           experience.type === 'side-project' ? 'bg-accent-3' : 'bg-accent-1'
         }`}
       >
@@ -100,13 +100,9 @@ const TimelineItem = ({ experience, index }) => {
         whileInView={{ scale: 1 }}
         viewport={{ once: true }}
         transition={{ type: 'spring', stiffness: 200, delay: index * 0.1 + 0.2 }}
-        className={`absolute w-4 h-4 rounded-full border-4 border-[var(--color-bg-primary)] z-10 hidden lg:block ${
+        className={`absolute w-5 h-5 rounded-full border-4 border-[var(--color-bg-primary)] z-10 hidden lg:block ${
           experience.type === 'side-project' ? 'bg-accent-3' : 'bg-accent-1'
-        } ${
-          isLeft
-            ? 'left-[calc(50%-15px)]'
-            : 'left-[calc(50%+0px)]'
-        }`}
+        } left-[calc(50%-10px)] top-1/2 -mt-2.5`}
       >
         {experience.type === 'current' && (
           <span className="absolute inset-0 rounded-full bg-accent-1 animate-ping opacity-50" />
