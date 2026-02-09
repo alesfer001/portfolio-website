@@ -23,6 +23,21 @@ const projects = [
     featured: true,
   },
   {
+    title: 'Fret',
+    tagline: 'AI-powered music practice assistant',
+    description: 'Built for the Gemini 3 Hackathon. Record yourself playing guitar, piano, or singing and get instant AI feedback on what to improve. Uses Gemini 3\'s multimodal audio understanding to analyze practice sessions and provide specific, actionable feedback — like having a coach in the room.',
+    technologies: ['React 19', 'Tailwind CSS v4', 'Framer Motion', 'Web Audio API', 'Gemini 3'],
+    date: '2026',
+    status: 'Completed',
+    highlight: 'Gemini 3 Hackathon entry',
+    image: '/projects/fret.png',
+    link: 'https://fret-three.vercel.app',
+    metrics: [
+      { value: '3', label: 'Instruments' },
+      { value: 'Gemini 3', label: 'AI Engine' },
+    ],
+  },
+  {
     title: 'BricoPrive E-commerce',
     tagline: 'Legacy system optimization',
     description: 'E-commerce platform maintenance for Uneed client. Successfully increased BAPI usage from 30% to 90%. Awarded Palmarès France Capital "Meilleurs Sites de Commerce En Ligne 2023".',

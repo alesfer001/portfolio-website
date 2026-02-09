@@ -15,6 +15,16 @@ const experiences = [
     type: 'current',
   },
   {
+    period: '2026',
+    title: 'Full-Stack Developer',
+    company: 'Fret',
+    location: 'Remote',
+    description:
+      'Built AI-powered music practice assistant for the Gemini 3 Hackathon. Uses Gemini 3\'s multimodal audio understanding so users can record themselves playing and get instant, actionable feedback.',
+    technologies: ['React 19', 'Tailwind CSS v4', 'Gemini 3', 'Web Audio API'],
+    type: 'side-project',
+  },
+  {
     period: '2025',
     title: 'Full-Stack Developer',
     company: 'MealPlanner',
