@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue } from 'framer-motion';
 import { useCursor } from './CursorContext';
 
@@ -19,6 +19,10 @@ const CustomCursor = () => {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
+  // Last known pointer position, so the hit test can re-run on scroll when no
+  // mousemove has fired.
+  const pointer = useRef({ x: -100, y: -100 });
+
   useEffect(() => {
     // Check if device has fine pointer (mouse)
     const mediaQuery = window.matchMedia('(pointer: fine)');
@@ -38,23 +42,34 @@ const CustomCursor = () => {
     let lastHitTest = 0;
     const HIT_TEST_MS = 60;
 
+    // Which surface is under the pointer? The cursor is pointer-events:none,
+    // so this reports the page beneath it rather than the cursor itself.
+    const runHitTest = () => {
+      const now = performance.now();
+      if (now - lastHitTest < HIT_TEST_MS) return;
+      lastHitTest = now;
+      const { x, y } = pointer.current;
+      if (x < 0 || y < 0) return;
+      const under = document.elementFromPoint(x, y);
+      setOnInverted(Boolean(under?.closest('[data-cursor="invert"]')));
+    };
+
     const moveCursor = (e) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
+      pointer.current = { x: e.clientX, y: e.clientY };
       setIsVisible(true);
-
-      // Which surface is under the pointer? The cursor is pointer-events:none,
-      // so this reports the page beneath it rather than the cursor itself.
-      const now = e.timeStamp || performance.now();
-      if (now - lastHitTest < HIT_TEST_MS) return;
-      lastHitTest = now;
-      const under = document.elementFromPoint(e.clientX, e.clientY);
-      setOnInverted(Boolean(under?.closest('[data-cursor="invert"]')));
+      runHitTest();
     };
+
+    // Scrolling moves the page under a stationary pointer, so the surface can
+    // change without a single mousemove. Re-test on scroll as well.
+    const handleScroll = () => runHitTest();
 
     const hideCursor = () => setIsVisible(false);
 
     window.addEventListener('mousemove', moveCursor);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     document.addEventListener('mouseleave', hideCursor);
 
     // Add class to body for hiding default cursor
@@ -62,6 +77,7 @@ const CustomCursor = () => {
 
     return () => {
       window.removeEventListener('mousemove', moveCursor);
+      window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mouseleave', hideCursor);
       document.body.classList.remove('custom-cursor-active');
     };
