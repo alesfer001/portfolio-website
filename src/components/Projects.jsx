@@ -308,26 +308,33 @@ const CasePanel = ({ project, onClose }) => {
         </div>
 
         {project.image && (
-          <div className={project.portrait ? 'flex justify-end gap-4' : 'flex justify-end'}>
-            <figure
-              className={`overflow-hidden border border-rule bg-[var(--void)] ${
-                project.portrait ? 'max-h-[30rem]' : 'max-w-full'
-              }`}
-            >
+          /* Portrait device shots sit two-up at every width. Sizing is driven by
+             the image's own aspect, clamped by max-width and max-height, so it
+             never depends on the figure resolving a height. */
+          <div
+            className={
+              project.portrait ? 'grid grid-cols-2 gap-3 self-start sm:gap-4' : 'flex justify-end'
+            }
+          >
+            <figure className="min-w-0 overflow-hidden border border-rule bg-[var(--void)]">
               <img
                 src={project.image}
                 alt={project.imageAlt || `${project.title} interface`}
                 loading="lazy"
-                className={project.portrait ? 'h-full w-auto object-contain' : 'h-auto w-full'}
+                className={
+                  project.portrait
+                    ? 'mx-auto block h-auto max-h-[18rem] w-auto max-w-full object-contain sm:max-h-[24rem] lg:max-h-[30rem]'
+                    : 'block h-auto w-full'
+                }
               />
             </figure>
             {project.secondaryImage && (
-              <figure className="hidden max-h-[30rem] overflow-hidden border border-rule bg-[var(--void)] sm:block">
+              <figure className="min-w-0 overflow-hidden border border-rule bg-[var(--void)]">
                 <img
                   src={project.secondaryImage}
                   alt={project.secondaryImageAlt}
                   loading="lazy"
-                  className="h-full w-auto object-contain"
+                  className="mx-auto block h-auto max-h-[18rem] w-auto max-w-full object-contain sm:max-h-[24rem] lg:max-h-[30rem]"
                 />
               </figure>
             )}
