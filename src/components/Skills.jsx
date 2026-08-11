@@ -1,194 +1,134 @@
-import { motion } from 'framer-motion';
-import { SectionHeading } from './common';
-import { useCursor } from './cursor';
+import { SplitFlap, useInViewOnce } from './flap';
 
-const skillCategories = [
+/*
+ * EQUIPMENT, what's on board.
+ *
+ * Deliberately not the same cut as About's disciplines: this is the exhaustive
+ * inventory, ending in the scrolling information strip every board has.
+ */
+
+const equipment = [
   {
-    title: 'Backend',
-    icon: '{}',
-    skills: ['PHP', 'Laravel', 'Symfony', 'CodeIgniter', 'NodeJS', 'Python'],
-    featured: ['PHP', 'Laravel', 'NodeJS'],
-    color: 'from-indigo-500 to-purple-500',
+    group: 'Backend',
+    primary: ['PHP', 'Laravel', 'Symfony', 'CodeIgniter'],
+    secondary: ['NodeJS', 'Express', 'Hono', 'Python'],
   },
   {
-    title: 'Frontend',
-    icon: '</>',
-    skills: ['JavaScript', 'VueJS', 'React', 'TypeScript', 'HTML/CSS', 'Tailwind CSS'],
-    featured: ['VueJS', 'React', 'JavaScript'],
-    color: 'from-purple-500 to-pink-500',
+    group: 'Frontend',
+    primary: ['React', 'VueJS', 'TypeScript'],
+    secondary: ['React Native', 'Next.js', 'Tailwind', 'JavaScript', 'HTML/CSS'],
   },
   {
-    title: 'Database',
-    icon: '[]',
-    skills: ['MySQL', 'MariaDB', 'MongoDB', 'Redis', 'PostgreSQL'],
-    featured: ['MySQL', 'MongoDB'],
-    color: 'from-blue-500 to-cyan-500',
+    group: 'Data',
+    primary: ['MySQL', 'MariaDB', 'PostgreSQL'],
+    secondary: ['MongoDB', 'Redis', 'SQLite', 'Drizzle', 'Neon'],
   },
   {
-    title: 'Blockchain',
-    icon: '#',
-    skills: ['Ralph/Rust', 'Smart Contracts', 'Alephium', 'Web3', 'DeFi'],
-    featured: ['Smart Contracts', 'Alephium'],
-    color: 'from-orange-500 to-red-500',
+    group: 'Chain',
+    primary: ['Ralph / Rust', 'Smart contracts'],
+    secondary: ['Alephium', 'CKB Script', 'Web3', 'DeFi'],
   },
   {
-    title: 'DevOps',
-    icon: '>_',
-    skills: ['Docker', 'Git', 'Linux', 'Nginx', 'CI/CD', 'AWS'],
-    featured: ['Docker', 'Git'],
-    color: 'from-green-500 to-teal-500',
+    group: 'Ops',
+    primary: ['Docker', 'Git', 'CI/CD'],
+    secondary: ['Linux', 'Nginx', 'Vercel', 'AWS', 'Datadog'],
   },
   {
-    title: 'APIs & Tools',
-    icon: '~',
-    skills: ['REST APIs', 'OAuth2', 'Datadog', 'Algolia', 'PayPal', 'Cloudwatch'],
-    featured: ['REST APIs', 'OAuth2'],
-    color: 'from-pink-500 to-rose-500',
+    group: 'Interfaces',
+    primary: ['REST', 'OAuth2', 'SSE'],
+    secondary: ['GraphQL', 'Webhooks', 'Stripe', 'Twilio', 'Algolia'],
   },
 ];
 
-const otherTechnologies = [
-  'Prestashop',
-  'Cordova',
-  'Android/iOS',
-  'Airflow',
-  'Webpack',
-  'Vite',
-  'Jest',
-  'Express',
-  'GraphQL',
+const strip = [
+  'PHP',
+  'LARAVEL',
+  'REACT',
+  'TYPESCRIPT',
+  'NODE',
+  'PYTHON',
+  'RUST',
+  'DOCKER',
+  'POSTGRES',
+  'REACT NATIVE',
+  'SMART CONTRACTS',
+  'VUEJS',
+  'SYMFONY',
+  'REDIS',
+  'STRIPE',
+  'PRESTASHOP',
+  'AIRFLOW',
+  'CORDOVA',
+  'GRAPHQL',
+  'VITE',
 ];
-
-const SkillCard = ({ category, index }) => {
-  const { setCursorVariant } = useCursor();
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      onMouseEnter={() => setCursorVariant('hover')}
-      onMouseLeave={() => setCursorVariant('default')}
-      className="group"
-    >
-      <div className="card h-full p-6 relative overflow-hidden">
-        {/* Background Gradient Orb */}
-        <div
-          className={`absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br ${category.color} rounded-full opacity-0 group-hover:opacity-20 blur-3xl transition-opacity duration-500`}
-        />
-
-        {/* Header */}
-        <div className="flex items-center gap-3 mb-6 relative">
-          {/* Icon */}
-          <div
-            className={`w-10 h-10 rounded-lg bg-gradient-to-br ${category.color} flex items-center justify-center`}
-          >
-            <span className="text-white font-mono font-bold text-sm">
-              {category.icon}
-            </span>
-          </div>
-          <h3 className="font-display text-lg font-bold">{category.title}</h3>
-        </div>
-
-        {/* Featured Skills */}
-        <div className="flex flex-wrap gap-2 mb-4 relative">
-          {category.featured.map((skill, i) => (
-            <motion.span
-              key={i}
-              whileHover={{ scale: 1.05 }}
-              className="px-3 py-1.5 rounded-lg text-sm font-medium bg-white/10 text-white hover:bg-accent-1/20 transition-colors"
-            >
-              {skill}
-            </motion.span>
-          ))}
-        </div>
-
-        {/* All Skills */}
-        <div className="flex flex-wrap gap-1.5 relative">
-          {category.skills
-            .filter((s) => !category.featured.includes(s))
-            .map((skill, i) => (
-              <span
-                key={i}
-                className="px-2 py-0.5 rounded-full text-xs text-gray-500 bg-white/5"
-              >
-                {skill}
-              </span>
-            ))}
-        </div>
-      </div>
-    </motion.div>
-  );
-};
 
 const Skills = () => {
-  return (
-    <section id="skills" className="section-padding">
-      <div className="container-custom">
-        <SectionHeading
-          subtitle="Technologies and tools I use to bring ideas to life"
-          gradientWord="Skills"
-        >
-          My Skills
-        </SectionHeading>
+  const [ref, seen] = useInViewOnce();
 
-        {/* Skills Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-10">
-          {skillCategories.map((category, index) => (
-            <SkillCard key={category.title} category={category} index={index} />
+  return (
+    <section id="skills" ref={ref} className="py-24 sm:py-32">
+      <div className="bleed">
+        <div className="flex flex-wrap items-end justify-between gap-6 border-b border-rule-strong pb-6">
+          <SplitFlap
+            text="EQUIPMENT"
+            active={seen}
+            className="text-[9vw] leading-none sm:text-[6vw] lg:text-[4.6vw]"
+          />
+          <p className="mono-label max-w-[28ch] leading-relaxed">
+            Everything currently on board
+            <br />
+            Bold = daily driver
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-px border-t border-rule">
+        {equipment.map((e) => (
+          <div
+            key={e.group}
+            className="grid grid-cols-1 gap-3 border-b border-rule px-4 py-6 transition-colors hover:bg-[var(--housing)] sm:px-8 lg:grid-cols-[10rem_minmax(0,1fr)] lg:items-baseline lg:gap-8 lg:px-12"
+          >
+            <span className="font-display text-xl font-extrabold tracking-tight text-bone">
+              {e.group}
+            </span>
+
+            <span className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
+              {e.primary.map((p) => (
+                <span
+                  key={p}
+                  className="font-mono-data text-sm font-bold uppercase tracking-wider text-amber"
+                >
+                  {p}
+                </span>
+              ))}
+              {e.secondary.map((s) => (
+                <span
+                  key={s}
+                  className="font-mono-data text-xs uppercase tracking-wider text-ash-dim"
+                >
+                  {s}
+                </span>
+              ))}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Information strip, the scrolling line every board has */}
+      <div className="marquee mt-16 border-y border-rule bg-[var(--housing)] py-4">
+        <div className="marquee-track">
+          {[0, 1].map((copy) => (
+            <span key={copy} className="marquee-run" aria-hidden={copy === 1}>
+              {strip.map((s) => (
+                <span key={s} className="mono-data mx-6 text-xs tracking-[0.24em] text-ash">
+                  {s}
+                  <span className="ml-6 text-amber">·</span>
+                </span>
+              ))}
+            </span>
           ))}
         </div>
-
-        {/* Other Technologies */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center"
-        >
-          <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-6">
-            Also experienced with
-          </h3>
-          <div className="flex flex-wrap justify-center gap-3">
-            {otherTechnologies.map((tech, index) => (
-              <motion.span
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                className="tech-tag"
-              >
-                {tech}
-              </motion.span>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Languages */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-12 flex justify-center gap-8"
-        >
-          {[
-            { name: 'French', level: 'Native' },
-            { name: 'English', level: 'Fluent' },
-            { name: 'Arabic', level: 'Native' },
-          ].map((lang, i) => (
-            <div key={i} className="text-center">
-              <div className="text-2xl font-display font-bold gradient-text">
-                {lang.name}
-              </div>
-              <div className="text-xs text-gray-500">{lang.level}</div>
-            </div>
-          ))}
-        </motion.div>
       </div>
     </section>
   );

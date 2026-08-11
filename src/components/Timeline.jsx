@@ -1,225 +1,147 @@
-import { motion } from 'framer-motion';
-import { Briefcase } from 'lucide-react';
-import { SectionHeading } from './common';
-import PropTypes from 'prop-types';
+import { SplitFlap, useInViewOnce } from './flap';
 
-const experiences = [
+/*
+ * SERVICE HISTORY, the arrivals board.
+ *
+ * Reverse-chronological rows, densest thing on the page. No alternating
+ * zigzag: a career is a list, and a list should read like one.
+ */
+
+const history = [
   {
-    period: '2025 - Present',
-    title: 'Senior Full-Stack Developer',
-    company: 'eMenuChoice',
-    location: 'Remote',
-    description:
-      'Leading development of dining services management platform for senior living communities. Implementing multi-system integrations and automated workflows.',
-    technologies: ['PHP 8.4', 'CodeIgniter', 'React', 'MariaDB', 'Docker'],
-    type: 'current',
+    from: '2025',
+    to: 'NOW',
+    role: 'Senior Full-Stack Developer',
+    org: 'eMenuChoice',
+    place: 'Remote',
+    note: 'Leading the dining services platform for senior living communities, with multi-system integrations and automated workflows.',
+    stack: ['PHP 8.4', 'CodeIgniter', 'React', 'MariaDB', 'Docker'],
+    lamp: 'on',
   },
   {
-    period: '2026',
-    title: 'Full-Stack Developer',
-    company: 'Fret',
-    location: 'Remote',
-    description:
-      'Built AI-powered music practice assistant for the Gemini 3 Hackathon. Uses Gemini 3\'s multimodal audio understanding so users can record themselves playing and get instant, actionable feedback.',
-    technologies: ['React 19', 'Tailwind CSS v4', 'Gemini 3', 'Web Audio API'],
-    type: 'side-project',
+    from: '2025',
+    to: 'NOW',
+    role: 'Founder / Engineer',
+    org: 'Kata',
+    place: 'Side project',
+    note: 'Built the platform, SDK and both client apps: auth, sync, and an AI coach streaming over SSE.',
+    stack: ['Hono', 'React Native', 'Drizzle', 'Neon'],
+    lamp: 'on',
   },
   {
-    period: '2025',
-    title: 'Full-Stack Developer',
-    company: 'MealPlanner',
-    location: 'Remote',
-    description:
-      'Developed personal meal planning application with automatic meal plan generation and customization. Led full technical implementation.',
-    technologies: ['ReactNative'],
-    type: 'side-project',
+    from: '2022',
+    to: '2024',
+    role: 'Full-Stack Developer',
+    org: 'BricoPrivé (via Uneed)',
+    place: 'Bordeaux, France',
+    note: 'E-commerce maintenance and evolution. Raised BAPI usage from 30% to 90% by untangling the legacy path.',
+    stack: ['PHP', 'Prestashop', 'Python', 'NodeJS', 'Datadog'],
+    lamp: 'off',
   },
   {
-    period: '2023 - 2024',
-    title: 'Blockchain Developer',
-    company: 'Shin (Alephium DEX)',
-    location: 'Remote',
-    description:
-      'Built decentralized exchange on Alephium blockchain. Developed smart contracts, intelligent routing system, and intuitive swap interface.',
-    technologies: ['Ralph', 'TypeScript', 'React', 'Smart Contracts'],
-    type: 'side-project',
+    from: '2023',
+    to: '2024',
+    role: 'Blockchain Developer',
+    org: 'Shin (Alephium DEX)',
+    place: 'Side project',
+    note: 'Smart contracts, multi-pool routing and the swap interface.',
+    stack: ['Ralph', 'TypeScript', 'React'],
+    lamp: 'amber',
   },
   {
-    period: '2022 - 2024',
-    title: 'Full-Stack Developer',
-    company: 'BricoPrive (via Uneed)',
-    location: 'Bordeaux, France',
-    description:
-      'E-commerce platform maintenance and evolution. Successfully increased BAPI usage from 30% to 90% through legacy system optimization.',
-    technologies: ['PHP', 'Prestashop', 'Python', 'NodeJS', 'Datadog'],
-    type: 'past',
+    from: '2019',
+    to: '2021',
+    role: 'Full-Stack Developer',
+    org: 'EnjoyMonCSE',
+    place: 'Bordeaux, France',
+    note: 'Works councils platform with eCommerce and a cross-platform mobile app, for enterprise clients.',
+    stack: ['PHP', 'Laravel', 'VueJS', 'OAuth2', 'Cordova'],
+    lamp: 'off',
   },
   {
-    period: '2019 - 2021',
-    title: 'Full-Stack Developer',
-    company: 'EnjoyMonCSE',
-    location: 'Bordeaux, France',
-    description:
-      'Built comprehensive works councils management platform with eCommerce integration and cross-platform mobile application.',
-    technologies: ['PHP', 'Laravel', 'VueJS', 'OAuth2', 'Cordova'],
-    type: 'past',
-  },
-  {
-    period: '2018 - 2019',
-    title: 'Master in Computer Science',
-    company: 'Université de Bordeaux',
-    location: 'Bordeaux, France',
-    description:
-      'Advanced studies in software engineering, algorithms, and distributed systems.',
-    technologies: ['Algorithms', 'Distributed Systems', 'Software Engineering'],
-    type: 'education',
+    from: '2018',
+    to: '2019',
+    role: 'MSc Computer Science',
+    org: 'Université de Bordeaux',
+    place: 'Bordeaux, France',
+    note: 'Software engineering, algorithms and distributed systems.',
+    stack: ['Algorithms', 'Distributed Systems'],
+    lamp: 'off',
   },
 ];
 
-const TimelineItem = ({ experience, index }) => {
-  const isLeft = index % 2 === 0;
+const lampClass = { on: 'lamp--on', amber: 'lamp--amber', off: 'lamp--off' };
+
+const Timeline = () => {
+  const [ref, seen] = useInViewOnce();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className={`relative grid grid-cols-1 lg:grid-cols-2 gap-8 mb-3 lg:mb-6 pl-8 lg:pl-0 ${
-        isLeft ? '' : 'lg:direction-rtl'
-      }`}
-    >
-      {/* Timeline Dot - Mobile (left) */}
-      <motion.div
-        initial={{ scale: 0 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ type: 'spring', stiffness: 200, delay: index * 0.1 + 0.2 }}
-        className={`absolute w-4 h-4 rounded-full z-10 lg:hidden left-0 top-1/2 -mt-2 ${
-          experience.type === 'side-project' ? 'bg-accent-3' : 'bg-accent-1'
-        }`}
-      >
-        {experience.type === 'current' && (
-          <span className="absolute inset-0 rounded-full bg-accent-1 animate-ping opacity-50" />
-        )}
-      </motion.div>
-
-      {/* Timeline Dot - Desktop (center) */}
-      <motion.div
-        initial={{ scale: 0 }}
-        whileInView={{ scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ type: 'spring', stiffness: 200, delay: index * 0.1 + 0.2 }}
-        className={`absolute w-5 h-5 rounded-full border-4 border-[var(--color-bg-primary)] z-10 hidden lg:block ${
-          experience.type === 'side-project' ? 'bg-accent-3' : 'bg-accent-1'
-        } left-[calc(50%-10px)] top-1/2 -mt-2.5`}
-      >
-        {experience.type === 'current' && (
-          <span className="absolute inset-0 rounded-full bg-accent-1 animate-ping opacity-50" />
-        )}
-      </motion.div>
-
-      {/* Content Card */}
-      <div
-        className={`${
-          isLeft ? 'lg:text-right lg:pr-12' : 'lg:col-start-2 lg:pl-12 lg:direction-ltr'
-        }`}
-      >
-        <div className="card p-6 inline-block w-full">
-          {/* Badges */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-mono text-accent-1 bg-accent-1/10">
-              {experience.period}
-            </span>
-            {experience.type === 'side-project' && (
-              <span className="inline-block px-3 py-1 rounded-full text-xs font-medium text-accent-3 bg-accent-3/15">
-                Side Project
-              </span>
-            )}
-          </div>
-
-          {/* Title */}
-          <h3 className="font-display text-xl font-bold mb-1">
-            {experience.title}
-          </h3>
-
-          {/* Company & Location */}
-          <p className="text-accent-2 text-sm mb-2">
-            {experience.company}
-            <span className="text-gray-600"> · {experience.location}</span>
+    <section id="history" ref={ref} className="py-24 sm:py-32">
+      <div className="bleed">
+        <div className="flex flex-wrap items-end justify-between gap-6 border-b border-rule-strong pb-6">
+          <SplitFlap
+            text="ARRIVALS"
+            active={seen}
+            className="text-[9vw] leading-none sm:text-[6vw] lg:text-[4.6vw]"
+          />
+          <p className="mono-label max-w-[28ch] leading-relaxed">
+            Where the six years went
+            <br />
+            Most recent first
           </p>
+        </div>
 
-          {/* Description */}
-          <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-            {experience.description}
-          </p>
-
-          {/* Technologies */}
-          <div className={`flex flex-wrap gap-2 ${isLeft ? 'lg:justify-end' : ''}`}>
-            {experience.technologies.map((tech, i) => (
-              <span
-                key={i}
-                className="px-2 py-0.5 rounded-full text-xs bg-white/5 text-gray-400"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
+        <div className="mono-label grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 py-3 lg:grid-cols-[7rem_minmax(0,1.6fr)_minmax(0,2fr)_9rem]">
+          <span>Period</span>
+          <span>Role</span>
+          <span className="hidden lg:block">Detail</span>
+          <span className="hidden text-right lg:block">Stack</span>
         </div>
       </div>
 
-      {/* Empty space for alternating layout */}
-      <div className="hidden lg:block" />
-    </motion.div>
-  );
-};
+      <div className="border-t border-rule">
+        {history.map((h) => (
+          <div
+            key={`${h.org}-${h.from}`}
+            className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 border-b border-rule px-4 py-6 transition-colors hover:bg-[var(--housing)] sm:px-8 lg:grid-cols-[7rem_minmax(0,1.6fr)_minmax(0,2fr)_9rem] lg:px-12"
+          >
+            {/* Period */}
+            <span className="font-mono-data text-xs tabular-nums text-ash-dim">
+              {h.from}
+              <span className="block text-ash">{h.to}</span>
+            </span>
 
-TimelineItem.propTypes = {
-  experience: PropTypes.shape({
-    period: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    company: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    technologies: PropTypes.arrayOf(PropTypes.string).isRequired,
-    type: PropTypes.oneOf(['current', 'past', 'education', 'side-project']).isRequired,
-  }).isRequired,
-  index: PropTypes.number.isRequired,
-};
+            {/* Role + org */}
+            <span className="min-w-0">
+              <span className="flex items-center gap-2">
+                <span className={`lamp ${lampClass[h.lamp]}`} />
+                <span className="font-display text-lg font-bold leading-tight tracking-tight text-bone">
+                  {h.org}
+                </span>
+              </span>
+              <span className="mt-1.5 block font-mono-data text-xs uppercase tracking-wider text-amber">
+                {h.role}
+              </span>
+              <span className="mono-label mt-1 block normal-case tracking-normal">{h.place}</span>
+              {/* Detail folds under on mobile */}
+              <span className="mt-3 block text-sm leading-relaxed text-ash lg:hidden">{h.note}</span>
+            </span>
 
-const Timeline = () => {
-  return (
-    <section className="section-padding bg-surface-secondary">
-      <div className="container-custom">
-        <SectionHeading
-          subtitle="My professional path from education to senior developer"
-          gradientWord="Journey"
-        >
-          My Journey
-        </SectionHeading>
+            {/* Detail */}
+            <span className="hidden max-w-[52ch] text-sm leading-relaxed text-ash lg:block">
+              {h.note}
+            </span>
 
-        <div className="relative">
-          {/* Desktop Line (center) */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-accent-1 via-accent-2 to-accent-3 hidden lg:block" />
-
-          {/* Timeline Items */}
-          {experiences.map((experience, index) => (
-            <TimelineItem key={index} experience={experience} index={index} />
-          ))}
-        </div>
-
-        {/* Journey Start Indicator */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex justify-center"
-        >
-          <div className="flex items-center gap-3 px-4 py-2 rounded-full glass">
-            <Briefcase size={16} className="text-accent-1" />
-            <span className="text-sm text-gray-400">6+ years of experience</span>
+            {/* Stack */}
+            <span className="hidden justify-end gap-1 lg:flex lg:flex-wrap lg:content-start">
+              {h.stack.map((s) => (
+                <span key={s} className="tech-tag">
+                  {s}
+                </span>
+              ))}
+            </span>
           </div>
-        </motion.div>
+        ))}
       </div>
     </section>
   );

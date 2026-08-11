@@ -57,39 +57,42 @@ const CustomCursor = () => {
   // Don't render on touch devices
   if (!hasFinePointer) return null;
 
+  // Amber reticle, square like every module on the board.
+  const AMBER = '255, 176, 0';
+
   const variants = {
     default: {
-      width: 20,
-      height: 20,
-      backgroundColor: 'rgba(139, 92, 246, 0)',
-      border: '2px solid rgba(139, 92, 246, 0.6)',
+      width: 18,
+      height: 18,
+      backgroundColor: `rgba(${AMBER}, 0)`,
+      border: `1px solid rgba(${AMBER}, 0.7)`,
       scale: 1,
     },
     hover: {
-      width: 50,
-      height: 50,
-      backgroundColor: 'rgba(99, 102, 241, 0.1)',
-      border: '2px solid rgba(99, 102, 241, 0.8)',
+      width: 46,
+      height: 46,
+      backgroundColor: `rgba(${AMBER}, 0.1)`,
+      border: `1px solid rgba(${AMBER}, 0.9)`,
       scale: 1,
     },
     button: {
-      width: 60,
-      height: 60,
-      backgroundColor: 'rgba(139, 92, 246, 0.15)',
-      border: '2px solid rgba(139, 92, 246, 1)',
+      width: 58,
+      height: 58,
+      backgroundColor: `rgba(${AMBER}, 0.18)`,
+      border: `1px solid rgba(${AMBER}, 1)`,
       scale: 1,
     },
     text: {
-      width: 100,
-      height: 100,
-      backgroundColor: 'rgba(236, 72, 153, 0.05)',
-      border: '1px solid rgba(236, 72, 153, 0.3)',
+      width: 96,
+      height: 96,
+      backgroundColor: `rgba(${AMBER}, 0.06)`,
+      border: `1px solid rgba(${AMBER}, 0.35)`,
       scale: 1,
     },
     hidden: {
       width: 0,
       height: 0,
-      backgroundColor: 'rgba(139, 92, 246, 0)',
+      backgroundColor: `rgba(${AMBER}, 0)`,
       scale: 0,
     },
   };
@@ -98,7 +101,7 @@ const CustomCursor = () => {
     <>
       {/* Main cursor ring */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full pointer-events-none z-[99999] flex items-center justify-center mix-blend-difference"
+        className="pointer-events-none fixed left-0 top-0 z-[99999] flex items-center justify-center"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -130,13 +133,13 @@ const CustomCursor = () => {
 
       {/* Cursor dot (center) */}
       <motion.div
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full pointer-events-none z-[99999]"
+        className="pointer-events-none fixed left-0 top-0 z-[99999] h-1 w-1"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
           translateX: '-50%',
           translateY: '-50%',
-          backgroundColor: 'rgba(139, 92, 246, 0.8)',
+          backgroundColor: 'rgba(255, 176, 0, 0.9)',
         }}
         animate={{
           scale: cursorVariant === 'default' ? 1 : 0,

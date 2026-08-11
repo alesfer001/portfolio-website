@@ -3,13 +3,14 @@ import { useForm } from '@formspree/react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, CheckCircle, AlertCircle, ArrowUpRight } from 'lucide-react';
 import { trackContactFormStart, trackContactFormSubmit } from '../utils/analytics';
-import { SectionHeading } from './common';
 import { useCursor } from './cursor';
+import { SplitFlap, useInViewOnce } from './flap';
 
 const Contact = () => {
   const formspreeId = import.meta.env.VITE_FORMSPREE_FORM_ID || 'mnnoepae';
   const [state, handleFormspreeSubmit] = useForm(formspreeId);
   const { setCursorVariant } = useCursor();
+  const [boardRef, boardSeen] = useInViewOnce();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -119,104 +120,79 @@ const Contact = () => {
   ];
 
   return (
-    <section id="contact" className="section-padding">
-      <div className="container-custom">
-        <SectionHeading
-          subtitle="Let's discuss how we can work together to create something amazing"
-          gradientWord="Touch"
-        >
-          Get In Touch
-        </SectionHeading>
+    <section id="contact" ref={boardRef} className="py-24 sm:py-32">
+      <div className="bleed">
+        <div className="flex flex-wrap items-end justify-between gap-6 border-b border-rule-strong pb-6">
+          <SplitFlap
+            text="NOW BOARDING"
+            active={boardSeen}
+            className="text-[9vw] leading-none sm:text-[6vw] lg:text-[4.6vw]"
+          />
+          <p className="mono-label max-w-[30ch] leading-relaxed">
+            Tell me what you are building
+            <br />
+            Replies within one working day
+          </p>
+        </div>
 
-        <div className="grid lg:grid-cols-5 gap-12">
+        <div className="mt-14 grid gap-12 lg:grid-cols-5 lg:gap-16">
           {/* Contact Information */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-2"
-          >
-            {/* Availability Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm mb-8">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-gray-300">Available worldwide</span>
+          <div className="lg:col-span-2">
+            <div className="mono-data mb-8 flex items-center gap-2 text-xs uppercase tracking-widest text-ash">
+              <span className="lamp lamp--on" />
+              Available worldwide
             </div>
 
             {/* Contact Items */}
-            <div className="space-y-4 mb-8">
-              {contactInfo.map((info, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+            <div className="mb-10">
+              {contactInfo.map((info) => (
+                <div
+                  key={info.title}
                   onMouseEnter={() => setCursorVariant('hover')}
                   onMouseLeave={() => setCursorVariant('default')}
-                  className="group"
+                  className="group grid grid-cols-[6rem_minmax(0,1fr)] items-baseline gap-4 border-b border-rule py-4"
                 >
-                  <div className="card p-4 flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-1/20 to-accent-2/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <info.icon className="w-5 h-5 text-accent-1" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs text-gray-500 mb-0.5">{info.title}</p>
-                      {info.link ? (
-                        <a
-                          href={info.link}
-                          className="text-white hover:text-accent-1 transition-colors flex items-center gap-1"
-                        >
-                          {info.content}
-                          <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </a>
-                      ) : (
-                        <p className="text-white">{info.content}</p>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
+                  <span className="mono-label">{info.title}</span>
+                  {info.link ? (
+                    <a
+                      href={info.link}
+                      className="inline-flex items-center gap-1.5 font-mono-data text-sm text-bone transition-colors hover:text-amber"
+                    >
+                      {info.content}
+                      <ArrowUpRight
+                        size={13}
+                        className="opacity-0 transition-opacity group-hover:opacity-100"
+                      />
+                    </a>
+                  ) : (
+                    <span className="font-mono-data text-sm text-bone">{info.content}</span>
+                  )}
+                </div>
               ))}
             </div>
 
             {/* Services */}
-            <div className="card p-6">
-              <h4 className="font-display font-bold text-lg mb-4 gradient-text">
-                Freelance Services
-              </h4>
-              <ul className="space-y-2 text-gray-400 text-sm">
-                <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-1" />
-                  Full-stack web development
+            <h3 className="mono-label">Services offered</h3>
+            <ul className="mt-4 space-y-2.5">
+              {[
+                'Full-stack web development',
+                'E-commerce platforms',
+                'Legacy system modernisation',
+                'API development & integrations',
+                'Blockchain & DeFi applications',
+              ].map((s) => (
+                <li key={s} className="flex items-center gap-3">
+                  <span className="h-px w-4 bg-[var(--amber)]" />
+                  <span className="font-mono-data text-xs uppercase tracking-wider text-ash">
+                    {s}
+                  </span>
                 </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-2" />
-                  E-commerce platforms
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-3" />
-                  Legacy system modernization
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-1" />
-                  API development & integrations
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-2" />
-                  Blockchain & DeFi applications
-                </li>
-              </ul>
-            </div>
-          </motion.div>
+              ))}
+            </ul>
+          </div>
 
           {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-3"
-          >
+          <div className="lg:col-span-3">
             {state.succeeded ? (
               <div className="card p-8 text-center border-green-500/30">
                 <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
@@ -412,7 +388,7 @@ const Contact = () => {
                 </motion.button>
               </form>
             )}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,13 @@
-/* Import fonts - Space Grotesk for display, Inter for body */
-@import '@fontsource-variable/space-grotesk';
-@import '@fontsource-variable/inter';
+/*
+ * SIGNAL, a mechanical departure board.
+ *
+ * The whole site is one board. Amber on housing-black at Solari contrast,
+ * full-bleed, with section breaks that invert to full-screen amber.
+ * Archivo for statements, JetBrains Mono for every flap module and label.
+ */
+@import '@fontsource-variable/archivo';
+@import '@fontsource-variable/instrument-sans';
+@import '@fontsource-variable/jetbrains-mono';
 
 @tailwind base;
 @tailwind components;
@@ -8,38 +15,47 @@
 
 @layer base {
   :root {
-    /* New gradient color system - Bold & Creative */
-    --color-accent-1: #6366F1;  /* Indigo */
-    --color-accent-2: #8B5CF6;  /* Violet */
-    --color-accent-3: #EC4899;  /* Pink */
+    /* Board housing */
+    --void: #0a0a0b;
+    --housing: #101013;
+    --flap: #17171b;
+    --flap-edge: rgba(255, 255, 255, 0.045);
+    --seam: rgba(0, 0, 0, 0.9);
 
-    /* Background palette with depth */
-    --color-bg-primary: #0A0A0F;
-    --color-bg-secondary: #12121A;
-    --color-bg-tertiary: #1A1A25;
+    /* The one colour, committed to hard */
+    --amber: #ffb000;
+    --amber-deep: #c98600;
 
-    /* Text hierarchy */
-    --color-text-primary: #FAFAFA;
-    --color-text-secondary: #A1A1AA;
-    --color-text-muted: #71717A;
+    --bone: #edeae3;
+    --ash: #8a8378;
+    --ash-dim: #5b564e;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, var(--color-accent-1) 0%, var(--color-accent-2) 50%, var(--color-accent-3) 100%);
-    --gradient-text: linear-gradient(90deg, var(--color-accent-1) 0%, var(--color-accent-2) 50%, var(--color-accent-3) 100%);
-    --gradient-glow: radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+    --rule: rgba(237, 234, 227, 0.1);
+    --rule-strong: rgba(237, 234, 227, 0.22);
 
-    /* Legacy support - map old primary to new accent */
-    --color-primary: var(--color-accent-1);
-    --color-primary-hover: #4F46E5;
+    /* Status, sparing and board-authentic */
+    --on-time: #3ddc84;
+
+    /* Legacy aliases so untouched components keep resolving */
+    --color-accent-1: var(--amber);
+    --color-accent-2: var(--amber);
+    --color-accent-3: var(--bone);
+    --color-bg-primary: var(--void);
+    --color-bg-secondary: var(--housing);
+    --color-bg-tertiary: var(--flap);
+    --color-text-primary: var(--bone);
+    --color-text-secondary: var(--ash);
+    --color-text-muted: var(--ash-dim);
+    --color-primary: var(--amber);
+    --color-primary-hover: var(--amber-deep);
   }
-
-  /* Note: scroll-behavior removed - using Lenis for smooth scroll instead */
 
   html {
     overflow-x: hidden;
   }
 
-  html.lenis, html.lenis body {
+  html.lenis,
+  html.lenis body {
     height: auto;
   }
 
@@ -60,26 +76,36 @@
   }
 
   body {
-    font-family: 'Inter Variable', 'Inter', system-ui, sans-serif;
+    font-family: 'Instrument Sans Variable', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    background-color: var(--color-bg-primary);
-    color: var(--color-text-primary);
+    background-color: var(--void);
+    color: var(--bone);
   }
 
-  /* Focus styles for accessibility */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: 'Archivo Variable', system-ui, sans-serif;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--amber);
+    color: var(--void);
+  }
+
   *:focus-visible {
-    outline: 2px solid var(--color-accent-1);
-    outline-offset: 2px;
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
   }
 
-  /* Remove focus outline for mouse users */
   *:focus:not(:focus-visible) {
     outline: none;
   }
 
-  /* Hide default cursor on desktop when custom cursor is active */
   @media (pointer: fine) {
     .custom-cursor-active * {
       cursor: none !important;
@@ -88,250 +114,399 @@
 }
 
 @layer components {
-  .container-custom {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  /* ─── Split-flap module ────────────────────────────────────────── */
+
+  .flap-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.055em;
+    font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: 0;
   }
 
-  .section-padding {
-    @apply py-16 sm:py-20 lg:py-24;
+  /* A word never splits across lines; the row wraps between words only */
+  .flap-word {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.055em;
   }
 
-  /* Gradient text effect */
-  .gradient-text {
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .flap-cell {
+    position: relative;
+    display: inline-block;
+    width: 0.74em;
+    height: 1.16em;
+    background: var(--flap);
+    border-radius: 0.05em;
+    perspective: 320px;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px var(--flap-edge);
+    flex: none;
   }
 
-  /* Outlined text effect */
-  .text-outline {
-    -webkit-text-stroke: 2px currentColor;
-    -webkit-text-fill-color: transparent;
+  .flap-half {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50%;
+    overflow: hidden;
+    background: var(--flap);
   }
 
-  .text-outline-thin {
-    -webkit-text-stroke: 1px currentColor;
-    -webkit-text-fill-color: transparent;
+  .flap-half--top {
+    top: 0;
   }
 
-  /* Glow effects */
-  .glow-accent {
-    box-shadow: 0 0 40px rgba(99, 102, 241, 0.3),
-                0 0 80px rgba(139, 92, 246, 0.2),
-                0 0 120px rgba(236, 72, 153, 0.1);
+  /* The seam across the middle of every module */
+  .flap-half--top::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--seam);
   }
 
-  .glow-text {
-    text-shadow: 0 0 40px rgba(139, 92, 246, 0.5);
+  .flap-half--bottom {
+    bottom: 0;
   }
 
-  /* Glass morphism */
-  .glass {
-    background: rgba(18, 18, 26, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+  .flap-glyph {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.16em;
+    line-height: 1.16em;
+    text-align: center;
+    color: var(--amber);
   }
 
-  /* Custom hover effects */
-  .hover-lift {
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  .flap-half--top .flap-glyph {
+    top: 0;
   }
 
-  .hover-lift:hover {
-    transform: translateY(-4px);
+  .flap-half--bottom .flap-glyph {
+    top: -100%;
   }
 
-  .hover-glow {
-    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Leaf falling across the seam */
+  .flap-leaf {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    overflow: hidden;
+    background: var(--flap);
+    transform-origin: 50% 100%;
+    animation: flap-fall 0.072s cubic-bezier(0.4, 0, 0.9, 0.55) forwards;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
   }
 
-  .hover-glow:hover {
-    box-shadow: 0 10px 40px color-mix(in srgb, var(--color-accent-1) 15%, transparent);
+  .flap-leaf .flap-glyph {
+    top: 0;
   }
 
-  .hover-scale {
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  /* The leaf falls, then clears, otherwise its edge sits on the seam */
+  @keyframes flap-fall {
+    from {
+      transform: rotateX(0deg);
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    to {
+      transform: rotateX(-92deg);
+      opacity: 0;
+    }
   }
 
-  .hover-scale:hover {
-    transform: scale(1.02);
+  .flap-gap {
+    display: inline-block;
+    width: 0.36em;
+    flex: none;
   }
 
-  /* Interactive button styles */
+  /* On an amber panel the modules invert */
+  .invert .flap-cell,
+  .invert .flap-half,
+  .invert .flap-leaf {
+    background: var(--void);
+  }
+
+  .invert .flap-glyph {
+    color: var(--amber);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flap-leaf {
+      display: none;
+    }
+  }
+
+  /* ─── Board furniture ──────────────────────────────────────────── */
+
+  .mono-label {
+    font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash-dim);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mono-data {
+    font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+  }
+
+  /* Full-bleed: the board touches the edges of the screen */
+  .bleed {
+    width: 100%;
+    padding-inline: clamp(1rem, 4vw, 4.5rem);
+  }
+
+  /* Amber inversion panel */
+  .panel-amber {
+    background: var(--amber);
+    color: var(--void);
+  }
+
+  .panel-amber .mono-label {
+    color: rgba(10, 10, 11, 0.62);
+  }
+
+  /* Status lamp */
+  .lamp {
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 9999px;
+    display: inline-block;
+    flex: none;
+  }
+
+  .lamp--on {
+    background: var(--on-time);
+    box-shadow: 0 0 0 0.22em rgba(61, 220, 132, 0.16);
+  }
+
+  .lamp--amber {
+    background: var(--amber);
+    box-shadow: 0 0 0 0.22em rgba(255, 176, 0, 0.16);
+  }
+
+  .lamp--off {
+    background: var(--ash-dim);
+  }
+
+  /* Ruled board line */
+  .board-line {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* Scrolling information strip */
+  .marquee {
+    overflow: hidden;
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-run 42s linear infinite;
+  }
+
+  .marquee-run {
+    display: flex;
+    align-items: stretch;
+    flex: none;
+    white-space: nowrap;
+  }
+
+  .marquee-track--slow {
+    animation-duration: 90s;
+  }
+
+  .marquee--pausable:hover .marquee-track,
+  .marquee--pausable:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee-run {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+
+  /* ─── Controls ─────────────────────────────────────────────────── */
+
   .btn-primary {
-    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300;
-    background: var(--gradient-primary);
-    color: white;
+    font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+    @apply px-6 py-3 text-sm font-bold uppercase tracking-widest transition-colors duration-200;
+    background: var(--amber);
+    color: var(--void);
+    border: 1px solid var(--amber);
   }
 
   .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+    background: transparent;
+    color: var(--amber);
   }
 
   .btn-secondary {
-    @apply text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300;
-    background: rgba(255, 255, 255, 0.08);
+    font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+    @apply px-6 py-3 text-sm font-bold uppercase tracking-widest transition-colors duration-200;
+    background: transparent;
+    color: var(--bone);
+    border: 1px solid var(--rule-strong);
   }
 
   .btn-secondary:hover {
-    background: rgba(99, 102, 241, 0.2);
-    transform: translateY(-2px);
+    border-color: var(--amber);
+    color: var(--amber);
   }
 
-  /* Card styles with new aesthetic */
-  .card {
-    @apply rounded-2xl transition-all duration-300;
-    background: var(--color-bg-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-
-  .card:hover {
-    border-color: rgba(99, 102, 241, 0.3);
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  }
-
-  /* Input field enhancements */
   .input-field {
-    @apply w-full px-4 py-3 rounded-xl text-white placeholder-gray-500 transition-all duration-300;
-    background: var(--color-bg-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+    @apply w-full px-4 py-3 text-sm transition-colors duration-200;
+    background: var(--housing);
+    border: 1px solid var(--rule-strong);
+    color: var(--bone);
+  }
+
+  .input-field::placeholder {
+    color: var(--ash-dim);
   }
 
   .input-field:focus {
-    border-color: var(--color-accent-1);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    border-color: var(--amber);
+    outline: none;
   }
 
-  /* Technology tag hover effects */
   .tech-tag {
-    @apply px-3 py-1 rounded-full text-sm transition-all duration-300;
-    background: rgba(99, 102, 241, 0.15);
-    color: var(--color-accent-2);
+    font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+    @apply px-2 py-1 text-xs uppercase tracking-wider transition-colors duration-200;
+    background: transparent;
+    border: 1px solid var(--rule);
+    color: var(--ash);
   }
 
   .tech-tag:hover {
-    background: var(--gradient-primary);
-    color: white;
-    transform: scale(1.05);
+    border-color: var(--amber-deep);
+    color: var(--amber);
   }
 
-  /* Section divider with gradient */
+  .card {
+    background: var(--housing);
+    border: 1px solid var(--rule);
+  }
+
+  /* Compat: components not yet rewritten still ask for `glass` */
+  .glass {
+    background: rgba(16, 16, 19, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--rule);
+  }
+
+  .container-custom {
+    @apply mx-auto;
+    width: 100%;
+    max-width: 100rem;
+    padding-inline: clamp(1rem, 4vw, 4.5rem);
+  }
+
+  .section-padding {
+    @apply py-24 sm:py-32;
+  }
+
+  .gradient-text {
+    color: var(--amber);
+  }
+
   .section-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent);
-  }
-
-  /* Animated gradient background */
-  .animated-gradient-bg {
-    background: linear-gradient(
-      -45deg,
-      var(--color-bg-primary),
-      var(--color-bg-secondary),
-      rgba(99, 102, 241, 0.1),
-      var(--color-bg-primary)
-    );
-    background-size: 400% 400%;
-    animation: gradient-shift 15s ease infinite;
-  }
-
-  @keyframes gradient-shift {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  /* Noise texture overlay */
-  .noise-overlay {
-    position: relative;
-  }
-
-  .noise-overlay::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: 0.03;
-    pointer-events: none;
-    mix-blend-mode: overlay;
+    background: var(--rule);
   }
 }
 
 @layer utilities {
-  /* Accent Color Utilities */
-  .text-accent-1 {
-    color: var(--color-accent-1);
+  .font-display {
+    font-family: 'Archivo Variable', system-ui, sans-serif;
   }
 
+  .font-mono-data {
+    font-family: 'JetBrains Mono Variable', ui-monospace, monospace;
+  }
+
+  .text-accent-1,
   .text-accent-2 {
-    color: var(--color-accent-2);
+    color: var(--amber);
   }
 
   .text-accent-3 {
-    color: var(--color-accent-3);
+    color: var(--bone);
   }
 
-  .bg-accent-1 {
-    background-color: var(--color-accent-1);
-  }
-
+  .bg-accent-1,
   .bg-accent-2 {
-    background-color: var(--color-accent-2);
+    background-color: var(--amber);
   }
 
-  .bg-accent-3 {
-    background-color: var(--color-accent-3);
-  }
-
-  .border-accent-1 {
-    border-color: var(--color-accent-1);
-  }
-
+  .border-accent-1,
   .border-accent-2 {
-    border-color: var(--color-accent-2);
+    border-color: var(--amber);
   }
 
-  /* Background utilities */
   .bg-primary-dark {
-    background-color: var(--color-bg-primary);
+    background-color: var(--void);
   }
 
   .bg-secondary-dark {
-    background-color: var(--color-bg-secondary);
+    background-color: var(--housing);
   }
 
   .bg-tertiary-dark {
-    background-color: var(--color-bg-tertiary);
+    background-color: var(--flap);
   }
 
-  /* Legacy support */
   .text-primary {
-    color: var(--color-primary);
+    color: var(--amber);
   }
 
   .bg-primary {
-    background-color: var(--color-primary);
-  }
-
-  .bg-primary-hover {
-    background-color: var(--color-primary-hover);
+    background-color: var(--amber);
   }
 
   .border-primary {
-    border-color: var(--color-primary);
+    border-color: var(--amber);
   }
 
-  /* Display font utility */
-  .font-display {
-    font-family: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+  .text-bone {
+    color: var(--bone);
+  }
+
+  .text-ash {
+    color: var(--ash);
+  }
+
+  .text-ash-dim {
+    color: var(--ash-dim);
   }
 }

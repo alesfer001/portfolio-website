@@ -44,9 +44,11 @@ const Header = () => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
-        isMenuOpen ? 'bg-[#12121a] h-screen' : isScrolled ? 'glass' : 'bg-transparent'
-      }`}
+      /* Always opaque: the header crosses the amber panel, and a transparent
+         bar there makes the amber half of the logo vanish. */
+      className={`fixed left-0 right-0 top-0 z-50 w-full border-b bg-[var(--void)] transition-colors duration-300 ${
+        isMenuOpen ? 'h-screen border-transparent' : ''
+      } ${isScrolled ? 'border-rule' : 'border-transparent'}`}
       role="banner"
     >
       <nav className="container-custom" role="navigation" aria-label="Main navigation">
@@ -75,10 +77,10 @@ const Header = () => {
                 onClick={() => scrollToSection(item.href)}
                 onMouseEnter={() => setCursorVariant('hover')}
                 onMouseLeave={() => setCursorVariant('default')}
-                className="relative px-4 py-2 text-sm text-gray-400 hover:text-white transition-colors group"
+                className="group relative px-4 py-2 text-sm text-slate-muted transition-colors hover:text-bone"
               >
                 {item.name}
-                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-accent-1 to-accent-2 group-hover:w-full transition-all duration-300" />
+                <span className="absolute bottom-0 left-1/2 h-px w-0 -translate-x-1/2 bg-amber transition-all duration-300 group-hover:w-1/2" />
               </motion.button>
             ))}
             {/* CTA Button */}
@@ -88,7 +90,7 @@ const Header = () => {
               onClick={() => scrollToSection('#contact')}
               onMouseEnter={() => setCursorVariant('button')}
               onMouseLeave={() => setCursorVariant('default')}
-              className="ml-4 px-4 py-2 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-accent-1 to-accent-2 hover:shadow-glow transition-shadow"
+              className="ml-4 border border-amber bg-amber px-4 py-2 text-sm font-semibold text-void transition-colors hover:bg-transparent hover:text-amber"
             >
               Hire Me
             </motion.button>
@@ -118,7 +120,7 @@ const Header = () => {
               className="md:hidden overflow-hidden"
               role="menu"
             >
-              <div className="py-4 space-y-2 border-t border-white/10">
+              <div className="space-y-2 border-t border-rule py-4">
                 {navItems.map((item, index) => (
                   <motion.button
                     key={item.name}
@@ -126,7 +128,7 @@ const Header = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.05 * index }}
                     onClick={() => scrollToSection(item.href)}
-                    className="block w-full text-left px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all"
+                    className="block w-full px-4 py-3 text-left text-slate-muted transition-colors hover:text-bone"
                   >
                     {item.name}
                   </motion.button>
@@ -136,7 +138,7 @@ const Header = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.25 }}
                   onClick={() => scrollToSection('#contact')}
-                  className="block w-full text-left px-4 py-3 rounded-lg text-white bg-gradient-to-r from-accent-1 to-accent-2"
+                  className="block w-full bg-amber px-4 py-3 text-left font-semibold text-void"
                 >
                   Hire Me
                 </motion.button>

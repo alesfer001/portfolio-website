@@ -1,155 +1,121 @@
-import { motion } from 'framer-motion';
 import { Github, Linkedin, Mail, ArrowUp } from 'lucide-react';
 import { FaXTwitter } from 'react-icons/fa6';
 import { useCursor } from './cursor';
+
+const socialLinks = [
+  { icon: Github, href: import.meta.env.VITE_GITHUB_URL || 'https://github.com', label: 'GitHub' },
+  {
+    icon: Linkedin,
+    href: import.meta.env.VITE_LINKEDIN_URL || 'https://linkedin.com',
+    label: 'LinkedIn',
+  },
+  { icon: FaXTwitter, href: import.meta.env.VITE_TWITTER_URL || 'https://twitter.com', label: 'X' },
+  { icon: Mail, href: 'mailto:lesferayoub@gmail.com', label: 'Email' },
+];
+
+const navLinks = [
+  { name: 'Departures', href: '#projects' },
+  { name: 'Arrivals', href: '#history' },
+  { name: 'Service info', href: '#about' },
+  { name: 'Equipment', href: '#skills' },
+  { name: 'Contact', href: '#contact' },
+];
+
+const services = [
+  'Full-stack web development',
+  'E-commerce platforms',
+  'Legacy system migration',
+  'Blockchain & DeFi',
+  'Technical consulting',
+];
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { setCursorVariant } = useCursor();
 
-  const socialLinks = [
-    {
-      icon: Github,
-      href: import.meta.env.VITE_GITHUB_URL || 'https://github.com',
-      label: 'GitHub',
-    },
-    {
-      icon: Linkedin,
-      href: import.meta.env.VITE_LINKEDIN_URL || 'https://linkedin.com',
-      label: 'LinkedIn',
-    },
-    {
-      icon: FaXTwitter,
-      href: import.meta.env.VITE_TWITTER_URL || 'https://twitter.com',
-      label: 'X (Twitter)',
-    },
-    {
-      icon: Mail,
-      href: 'mailto:lesferayoub@gmail.com',
-      label: 'Email',
-    },
-  ];
-
-  const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' },
-  ];
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const scrollToSection = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <footer className="bg-surface-secondary border-t border-white/5">
-      <div className="container-custom py-16">
-        <div className="grid md:grid-cols-12 gap-8 mb-12">
-          {/* Brand Section */}
-          <div className="md:col-span-5">
-            <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="inline-block mb-4"
-            >
-              <span className="font-display text-2xl font-bold">
-                <span className="gradient-text">Ayoub</span> Lesfer
-              </span>
-            </motion.div>
-            <p className="text-gray-500 mb-6 max-w-sm">
-              Full-Stack Developer crafting performant web experiences.
-              Available for freelance projects worldwide.
+    <footer className="border-t border-rule-strong">
+      <div className="bleed py-16">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)]">
+          {/* Station identity */}
+          <div>
+            <span className="font-display text-2xl font-extrabold tracking-tight">
+              <span className="text-amber">Ayoub</span> Lesfer
+            </span>
+            <p className="mt-4 max-w-[34ch] text-sm leading-relaxed text-ash">
+              Senior full-stack developer in Bordeaux. Backend-heavy, full-stack when it needs to
+              be. Available for freelance work worldwide.
             </p>
-            <div className="flex items-center gap-2 mb-6">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-sm text-gray-400">Available for hire</span>
+            <div className="mono-data mt-6 flex items-center gap-2 text-xs uppercase tracking-widest text-ash">
+              <span className="lamp lamp--on" />
+              Available for hire
             </div>
-            {/* Social Links */}
-            <div className="flex gap-3">
-              {socialLinks.map((link, index) => (
-                <motion.a
-                  key={index}
+            <div className="mt-6 flex gap-1">
+              {socialLinks.map((link) => (
+                <a
+                  key={link.label}
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={link.label}
-                  whileHover={{ scale: 1.1, y: -2 }}
                   onMouseEnter={() => setCursorVariant('hover')}
                   onMouseLeave={() => setCursorVariant('default')}
-                  className="w-10 h-10 rounded-xl glass flex items-center justify-center text-gray-400 hover:text-white transition-colors"
+                  className="flex h-9 w-9 items-center justify-center text-ash transition-colors hover:text-amber"
                 >
-                  <link.icon size={18} />
-                </motion.a>
+                  <link.icon size={17} />
+                </a>
               ))}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="md:col-span-3">
-            <h3 className="font-display font-bold mb-4 text-white">Navigation</h3>
-            <ul className="space-y-2">
-              {navLinks.map((link, index) => (
-                <li key={index}>
+          {/* Board index */}
+          <nav aria-label="Footer">
+            <h2 className="mono-label">Board</h2>
+            <ul className="mt-4 space-y-2">
+              {navLinks.map((link) => (
+                <li key={link.name}>
                   <button
                     onClick={() => scrollToSection(link.href)}
                     onMouseEnter={() => setCursorVariant('hover')}
                     onMouseLeave={() => setCursorVariant('default')}
-                    className="text-gray-500 hover:text-white transition-colors"
+                    className="font-mono-data text-xs uppercase tracking-widest text-ash transition-colors hover:text-amber"
                   >
                     {link.name}
                   </button>
                 </li>
               ))}
             </ul>
-          </div>
+          </nav>
 
           {/* Services */}
-          <div className="md:col-span-4">
-            <h3 className="font-display font-bold mb-4 text-white">Services</h3>
-            <ul className="space-y-2 text-gray-500 text-sm">
-              <li>Full-Stack Web Development</li>
-              <li>E-commerce Platforms</li>
-              <li>Legacy System Migration</li>
-              <li>Blockchain & DeFi Apps</li>
-              <li>Technical Consulting</li>
+          <div>
+            <h2 className="mono-label">Services</h2>
+            <ul className="mt-4 space-y-2">
+              {services.map((s) => (
+                <li key={s} className="font-mono-data text-xs uppercase tracking-widest text-ash">
+                  {s}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="section-divider mb-8" />
-
-        {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-gray-600 text-sm">
-            © {currentYear} Ayoub Lesfer. Built with React &{' '}
-            <motion.span
-              className="inline-block text-red-500 text-xs relative -top-[1px]"
-              animate={{ scale: [1, 1.3, 1] }}
-              transition={{ duration: 0.8, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              ♥
-            </motion.span>
-          </div>
-
-          <motion.button
-            onClick={scrollToTop}
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
+        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-rule pt-6 sm:flex-row sm:items-center">
+          <p className="mono-label">
+            © {currentYear} Ayoub Lesfer · Bordeaux, France · All services subject to availability
+          </p>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             onMouseEnter={() => setCursorVariant('button')}
             onMouseLeave={() => setCursorVariant('default')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl glass text-sm text-gray-400 hover:text-white transition-colors"
+            className="mono-label inline-flex items-center gap-2 transition-colors hover:text-amber"
           >
-            Back to top
-            <ArrowUp size={16} />
-          </motion.button>
+            Back to top <ArrowUp size={14} />
+          </button>
         </div>
       </div>
     </footer>

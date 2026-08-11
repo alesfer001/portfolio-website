@@ -1,179 +1,84 @@
-import { motion } from 'framer-motion';
-import { Code, Globe, Zap, Users } from 'lucide-react';
-import { SectionHeading } from './common';
-import { useCursor } from './cursor';
+/*
+ * SERVICE INFORMATION.
+ *
+ * The board's announcement panel, the one full-bleed amber inversion on the
+ * page. Black type on amber, no cards, no icons.
+ */
 
-const highlights = [
-  {
-    icon: Code,
-    title: 'Full-Stack Expert',
-    description: 'End-to-end development from database to UI',
-    stat: '6+ years',
-    statLabel: 'Experience',
-  },
-  {
-    icon: Globe,
-    title: 'Remote Ready',
-    description: 'Seamless async collaboration across timezones',
-    stat: '100%',
-    statLabel: 'Remote Work',
-  },
-  {
-    icon: Zap,
-    title: 'Fast Delivery',
-    description: 'Agile approach with rapid iteration cycles',
-    stat: '15+',
-    statLabel: 'Projects',
-  },
-  {
-    icon: Users,
-    title: 'Team Player',
-    description: 'Clear communication, thorough documentation',
-    stat: '5+',
-    statLabel: 'Tech Stacks',
-  },
+const facts = [
+  { label: 'Based', value: 'Bordeaux, France' },
+  { label: 'Timezone', value: 'CET · UTC+1' },
+  { label: 'Working', value: 'Remote, worldwide' },
+  { label: 'Languages', value: 'FR · EN · AR' },
+  { label: 'Status', value: 'Available' },
+];
+
+const disciplines = [
+  { name: 'Backend', detail: 'PHP · Laravel · Symfony · CodeIgniter · Node · Hono · Python' },
+  { name: 'Frontend', detail: 'React · React Native · Vue · TypeScript · Next.js · Tailwind' },
+  { name: 'Data', detail: 'MariaDB · MySQL · Postgres · Neon · SQLite · Drizzle · Redis' },
+  { name: 'Chain', detail: 'Ralph · Rust · CKB Script · smart contracts · DeFi routing' },
+  { name: 'Ops', detail: 'Docker · Vercel · Datadog · CI · Airflow' },
 ];
 
 const About = () => {
-  const { setCursorVariant } = useCursor();
-
   return (
-    <section id="about" className="section-padding bg-surface-secondary">
-      <div className="container-custom">
-        <SectionHeading gradientWord="Me" align="center">
-          About Me
-        </SectionHeading>
+    <section id="about" className="panel-amber relative overflow-hidden">
+      <div className="bleed py-24 sm:py-32">
+        {/* Announcement */}
+        <div className="border-b border-[rgba(10,10,11,0.22)] pb-6">
+          <span className="mono-label">Service information</span>
+        </div>
 
-        <div className="grid lg:grid-cols-12 gap-12 items-start">
-          {/* Left Column - Text Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-5"
-          >
-            <div className="sticky top-32">
-              {/* Role Badge */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm mb-6"
+        <h2
+          className="mt-10 max-w-[18ch] font-display text-[11vw] font-extrabold leading-[0.9] tracking-[-0.04em] sm:text-[7.5vw] lg:text-[5.6vw]"
+        >
+          Six years keeping other people’s systems honest.
+        </h2>
+
+        <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-20">
+          <div className="max-w-[58ch] space-y-5 text-base leading-relaxed text-[rgba(10,10,11,0.78)] sm:text-lg">
+            <p>
+              I work at the join between a business rule and the database row that has to survive
+              it. Most of what I build is unglamorous and load-bearing: integrations that reconcile
+              three systems that disagree, sync that assumes the network will drop, escrow that
+              nobody, including me, can override.
+            </p>
+            <p>
+              Backend-heavy by instinct, full-stack because shipping requires it. I have spent as
+              much time repairing legacy platforms as greenfielding new ones, and I have opinions
+              about both. Autonomous by default: I am usually the person deciding what to build
+              next, not waiting to be told.
+            </p>
+          </div>
+
+          {/* Disciplines as board rows */}
+          <div>
+            {disciplines.map((d) => (
+              <div
+                key={d.name}
+                className="grid grid-cols-[7rem_minmax(0,1fr)] gap-4 border-b border-[rgba(10,10,11,0.18)] py-4"
               >
-                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-gray-300">Available for Freelance</span>
-              </motion.div>
-
-              <h3 className="font-display text-3xl font-bold mb-6">
-                Turning complex problems into{' '}
-                <span className="gradient-text">elegant solutions</span>
-              </h3>
-
-              <p className="text-gray-400 leading-relaxed mb-6">
-                With over 6 years of experience, I specialize in building robust, scalable
-                applications using PHP, NodeJS, VueJS, React, and Python. My autonomous approach
-                and innovative mindset make me an ideal partner for challenging projects.
-              </p>
-
-              <p className="text-gray-400 leading-relaxed mb-8">
-                Based in Bordeaux, France, I work with clients worldwide to deliver high-quality
-                solutions that drive real business results. From enterprise platforms to innovative
-                startups, I bring the same level of dedication and technical excellence.
-              </p>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-2">
-                {['PHP', 'NodeJS', 'VueJS', 'React', 'Python', 'Docker'].map((tech, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.05 }}
-                    className="px-3 py-1 rounded-full text-sm bg-accent-1/15 text-accent-1"
-                  >
-                    {tech}
-                  </motion.span>
-                ))}
+                <span className="font-mono-data text-xs font-bold uppercase tracking-widest">
+                  {d.name}
+                </span>
+                <span className="font-mono-data text-xs leading-relaxed text-[rgba(10,10,11,0.68)]">
+                  {d.detail}
+                </span>
               </div>
-            </div>
-          </motion.div>
-
-          {/* Right Column - Highlight Cards */}
-          <div className="lg:col-span-7">
-            <div className="grid sm:grid-cols-2 gap-4">
-              {highlights.map((highlight, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  onMouseEnter={() => setCursorVariant('hover')}
-                  onMouseLeave={() => setCursorVariant('default')}
-                  className="group"
-                >
-                  <div className="card h-full p-6 relative overflow-hidden">
-                    {/* Background glow on hover */}
-                    <div className="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-accent-1/20 to-accent-2/20 rounded-full opacity-0 group-hover:opacity-100 blur-2xl transition-opacity duration-500" />
-
-                    <div className="relative">
-                      {/* Icon */}
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-1/20 to-accent-2/20 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <highlight.icon className="w-6 h-6 text-accent-1" />
-                      </div>
-
-                      {/* Title */}
-                      <h4 className="font-display text-lg font-bold mb-2">
-                        {highlight.title}
-                      </h4>
-
-                      {/* Description */}
-                      <p className="text-gray-500 text-sm mb-4">
-                        {highlight.description}
-                      </p>
-
-                      {/* Stat */}
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-2xl font-bold gradient-text">
-                          {highlight.stat}
-                        </span>
-                        <span className="text-xs text-gray-600">{highlight.statLabel}</span>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Location Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="mt-4"
-            >
-              <div className="card p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-500 mb-1">Based in</p>
-                    <p className="font-display font-bold text-lg">Bordeaux, France</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-500 mb-1">Timezone</p>
-                    <p className="font-mono text-accent-1">CET (UTC+1)</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-500 mb-1">Working with</p>
-                    <p className="text-gray-300">Clients Worldwide</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+            ))}
           </div>
         </div>
+
+        {/* Fact strip */}
+        <dl className="mt-16 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-[rgba(10,10,11,0.22)] pt-8 sm:grid-cols-3 lg:grid-cols-5">
+          {facts.map((f) => (
+            <div key={f.label}>
+              <dt className="mono-label">{f.label}</dt>
+              <dd className="mt-2 font-display text-lg font-bold tracking-tight">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );
