@@ -10,12 +10,15 @@ const CustomCursor = () => {
   const { cursorVariant, cursorText } = useCursor();
   const [isVisible, setIsVisible] = useState(false);
   const [hasFinePointer, setHasFinePointer] = useState(false);
+  // True while the pointer is over a surface that would swallow an amber cursor
+  const [onInverted, setOnInverted] = useState(false);
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  // Smooth spring physics for cursor following
-  const springConfig = { damping: 25, stiffness: 400, mass: 0.5 };
+  // Light spring: enough to smooth jitter, not enough to trail behind the hand.
+  // The dot below is bound to the raw values so it tracks the pointer exactly.
+  const springConfig = { damping: 38, stiffness: 1200, mass: 0.22 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
@@ -33,10 +36,23 @@ const CustomCursor = () => {
   useEffect(() => {
     if (!hasFinePointer) return;
 
+    // Time-throttled rather than rAF-gated: a dropped frame must never be able
+    // to leave the hit test permanently switched off.
+    let lastHitTest = 0;
+    const HIT_TEST_MS = 60;
+
     const moveCursor = (e) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
       setIsVisible(true);
+
+      // Which surface is under the pointer? The cursor is pointer-events:none,
+      // so this reports the page beneath it rather than the cursor itself.
+      const now = e.timeStamp || performance.now();
+      if (now - lastHitTest < HIT_TEST_MS) return;
+      lastHitTest = now;
+      const under = document.elementFromPoint(e.clientX, e.clientY);
+      setOnInverted(Boolean(under?.closest('[data-cursor="invert"]')));
     };
 
     const hideCursor = () => setIsVisible(false);
@@ -57,8 +73,10 @@ const CustomCursor = () => {
   // Don't render on touch devices
   if (!hasFinePointer) return null;
 
-  // Amber reticle, square like every module on the board.
-  const AMBER = '255, 176, 0';
+  // Amber reticle, square like every module on the board. Over an amber
+  // surface it flips to the board ground, otherwise it vanishes into it.
+  const INK = '10, 10, 11';
+  const AMBER = onInverted ? INK : '255, 176, 0';
 
   const variants = {
     default: {
@@ -101,12 +119,15 @@ const CustomCursor = () => {
     <>
       {/* Main cursor ring */}
       <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[99999] flex items-center justify-center"
+        className="pointer-events-none fixed left-0 top-0 z-[99999] flex items-center justify-center transition-opacity duration-200"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
           translateX: '-50%',
           translateY: '-50%',
+          // Plain opacity, not whileInView: this element is fixed and never
+          // "enters" a scroll viewport, so whileInView could leave it hidden.
+          opacity: isVisible ? 1 : 0,
         }}
         variants={variants}
         animate={cursorVariant}
@@ -116,8 +137,7 @@ const CustomCursor = () => {
           stiffness: 400,
           mass: 0.5,
         }}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: isVisible ? 1 : 0 }}
+        initial={false}
       >
         {cursorText && (
           <motion.span
@@ -135,11 +155,13 @@ const CustomCursor = () => {
       <motion.div
         className="pointer-events-none fixed left-0 top-0 z-[99999] h-1 w-1"
         style={{
-          x: cursorXSpring,
-          y: cursorYSpring,
+          // Raw values, not the spring: the dot is the actual pointer position,
+          // so any lag here reads as the whole cursor being slow.
+          x: cursorX,
+          y: cursorY,
           translateX: '-50%',
           translateY: '-50%',
-          backgroundColor: 'rgba(255, 176, 0, 0.9)',
+          backgroundColor: `rgba(${AMBER}, 0.9)`,
         }}
         animate={{
           scale: cursorVariant === 'default' ? 1 : 0,

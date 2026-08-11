@@ -23,7 +23,11 @@ const disciplines = [
 
 const About = () => {
   return (
-    <section id="about" className="panel-amber relative overflow-hidden">
+    <section
+      id="about"
+      data-cursor="invert"
+      className="panel-amber relative overflow-hidden"
+    >
       <div className="bleed py-24 sm:py-32">
         {/* Announcement */}
         <div className="border-b border-[rgba(10,10,11,0.22)] pb-6">
