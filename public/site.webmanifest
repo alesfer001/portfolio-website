@@ -1,7 +1,7 @@
 {
   "name": "Ayoub Lesfer - Senior Full-Stack Developer",
   "short_name": "Ayoub Lesfer",
-  "description": "Senior Full-Stack Developer with expertise in React, Node.js, Python, and cloud technologies.",
+  "description": "Senior full-stack developer in Bordeaux. Six years of production software: dining operations for hundreds of care communities, offline-first job dispatch, and crowdfunding escrow enforced on-chain.",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -14,10 +14,14 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#1e293b",
-  "background_color": "#0f172a",
+  "theme_color": "#0a0a0b",
+  "background_color": "#0a0a0b",
   "display": "standalone",
   "start_url": "/",
   "orientation": "portrait-primary",
-  "categories": ["business", "productivity", "utilities"]
+  "categories": [
+    "business",
+    "productivity",
+    "utilities"
+  ]
 }

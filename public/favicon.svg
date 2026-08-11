@@ -1,11 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#6366F1"/>
-      <stop offset="50%" style="stop-color:#8B5CF6"/>
-      <stop offset="100%" style="stop-color:#EC4899"/>
-    </linearGradient>
-  </defs>
-  <rect width="32" height="32" rx="6" fill="#0A0A0F"/>
-  <text x="16" y="22" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="url(#grad)" text-anchor="middle">AL</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Ayoub Lesfer">
+  <!-- One split-flap module: amber glyph on the flap face, seam across the middle. -->
+  <rect width="32" height="32" rx="5" fill="#17171b"/>
+  <rect x="1" y="1" width="30" height="30" rx="4.2" fill="none" stroke="#ffffff" stroke-opacity="0.06"/>
+  <text x="16" y="23.5"
+        font-family="'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace"
+        font-size="23" font-weight="700" fill="#ffb000" text-anchor="middle">A</text>
+  <!-- The seam is the signature; keep it crisp at every size -->
+  <rect x="0" y="15.5" width="32" height="1.4" fill="#000000" fill-opacity="0.92"/>
 </svg>
