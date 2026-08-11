@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue } from 'framer-motion';
 import { useCursor } from './CursorContext';
 
 /**
@@ -13,14 +13,11 @@ const CustomCursor = () => {
   // True while the pointer is over a surface that would swallow an amber cursor
   const [onInverted, setOnInverted] = useState(false);
 
+  // No spring on position. Both the ring and the dot read the raw pointer
+  // values, so the cursor sits exactly under the hand with nothing trailing.
+  // Motion values write straight to the transform without a React render.
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-
-  // Light spring: enough to smooth jitter, not enough to trail behind the hand.
-  // The dot below is bound to the raw values so it tracks the pointer exactly.
-  const springConfig = { damping: 38, stiffness: 1200, mass: 0.22 };
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
     // Check if device has fine pointer (mouse)
@@ -121,10 +118,11 @@ const CustomCursor = () => {
       <motion.div
         className="pointer-events-none fixed left-0 top-0 z-[99999] flex items-center justify-center transition-opacity duration-200"
         style={{
-          x: cursorXSpring,
-          y: cursorYSpring,
+          x: cursorX,
+          y: cursorY,
           translateX: '-50%',
           translateY: '-50%',
+          willChange: 'transform',
           // Plain opacity, not whileInView: this element is fixed and never
           // "enters" a scroll viewport, so whileInView could leave it hidden.
           opacity: isVisible ? 1 : 0,
@@ -155,12 +153,11 @@ const CustomCursor = () => {
       <motion.div
         className="pointer-events-none fixed left-0 top-0 z-[99999] h-1 w-1"
         style={{
-          // Raw values, not the spring: the dot is the actual pointer position,
-          // so any lag here reads as the whole cursor being slow.
           x: cursorX,
           y: cursorY,
           translateX: '-50%',
           translateY: '-50%',
+          willChange: 'transform',
           backgroundColor: `rgba(${AMBER}, 0.9)`,
         }}
         animate={{
